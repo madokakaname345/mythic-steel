@@ -1,14 +1,35 @@
 extends TileMapLayer
 
+
+var side_panel
+var rich_text_label
+var buttons_container
+
+var main
+
 var world_map
 var curr_cell
 
 func _ready():
+	main = get_node("/root/MainScene")
+	#side_panel = get_node("/root/MainScene/UI/SidePanel")
+	#rich_text_label = side_panel.get_node("RichTextLabel")
+	#buttons_container = side_panel.get_node("ButtonsContainer")
 	load_maps("data/map.json")
 	
 	
 func _process(delta):
 	pass
+	
+func _unhandled_input(event):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
+		var local_mouse_position = to_local(event.position)
+		var tile_coords = local_to_map(local_mouse_position)
+		var tile = world_map.cells[tile_coords.x + tile_coords.y * world_map.width]  # Retrieve the tile ID from the coordinates
+		if tile != null && main.curr_selected_obj != tile:
+			main.curr_selected_obj = tile
+			main.upd_ui()
+
 	
 func load_maps(file_name):
 	var content = FileAccess.open(file_name, FileAccess.READ).get_as_text()
@@ -36,3 +57,24 @@ func load_maps(file_name):
 	print("Loaded map with dimensions: ", width, "x", height)
 	print("Current cell data: ", curr_cell)
 	
+#func show_buttons(tile):
+	#for child in buttons_container.get_children():
+		#buttons_container.remove_child(child)
+		#child.queue_free()  # Queue the child for deletion
+		#
+	#var button1 = Button.new()
+	#button1.text = str("add +1 elevation, curr elevation=", tile.elevation)  # Set the button's text
+	#button1.pressed.connect(Callable(tile, "incr_elevation"))
+#
+	## Add the button to the GridContainer
+	#buttons_container.add_child(button1)
+	#
+	#var button2 = Button.new()
+	#button2.text = str("add -1 elevation, curr elevation=", tile.elevation)  # Set the button's text
+	#button2.pressed.connect(Callable(tile, "decr_elevation"))
+#
+	## Add the button to the GridContainer
+	#buttons_container.add_child(button2)
+	
+func _increate_elevation(tile):
+	tile.elevation += 1

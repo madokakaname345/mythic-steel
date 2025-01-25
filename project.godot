@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Strategy-game"
-run/main_scene="res://scenes/world_map.tscn"
+run/main_scene="res://scenes/main_scene.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SignalBus="*res://scripts/SignalBus.gd"
 
 [rendering]
 
