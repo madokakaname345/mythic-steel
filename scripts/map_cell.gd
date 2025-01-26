@@ -5,6 +5,7 @@ var moisture
 var temperature
 var biome
 var resources = {}
+var coords
 
 var atlas_mapping = {
 	0: Vector2i(0, 46),
@@ -24,12 +25,13 @@ var atlas_mapping = {
 }
 
 
-func _init(elevation, moisture, temperature, biome, resources):
+func _init(elevation, moisture, temperature, biome, resources, coords):
 	self.elevation = elevation
 	self.moisture = moisture
 	self.temperature = temperature
 	self.biome = biome
 	self.resources = resources
+	self.coords = coords
 
 
 func get_atlas_coord():

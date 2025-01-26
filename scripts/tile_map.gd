@@ -8,7 +8,6 @@ var buttons_container
 var main
 
 var world_map
-var curr_cell
 
 func _ready():
 	main = get_node("/root/MainScene")
@@ -16,20 +15,17 @@ func _ready():
 	#rich_text_label = side_panel.get_node("RichTextLabel")
 	#buttons_container = side_panel.get_node("ButtonsContainer")
 	load_maps("data/map.json")
-	
-	
-func _process(delta):
-	pass
-	
+
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
 		var local_mouse_position = to_local(event.position)
 		var tile_coords = local_to_map(local_mouse_position)
 		var tile = world_map.cells[tile_coords.x + tile_coords.y * world_map.width]  # Retrieve the tile ID from the coordinates
 		if tile != null && main.curr_selected_obj != tile:
+			main.selector.set_position(map_to_local(tile_coords))
 			main.curr_selected_obj = tile
 			main.upd_ui()
-
+	
 	
 func load_maps(file_name):
 	var content = FileAccess.open(file_name, FileAccess.READ).get_as_text()
@@ -49,13 +45,13 @@ func load_maps(file_name):
 			var resources = {}
 			for resource in content_dict["resources"]:
 				resources[resource] = content_dict["resources"][resource][y*width + x]
-			var cell = preload("res://scripts/map_cell.gd").new(elevation, moisture, temperature, biome, resources)
+			var cell = preload("res://scripts/map_cell.gd").new(elevation, moisture, temperature, biome, resources, Vector2i(x, y))
 			world_map.set_cell(x,y,cell)
 			set_cell(Vector2i(x, y), 0, cell.get_atlas_coord(), 0)
 
-	curr_cell = world_map.get_cell(0, 0)
-	print("Loaded map with dimensions: ", width, "x", height)
-	print("Current cell data: ", curr_cell)
+	#curr_cell = world_map.get_cell(0, 0)
+	#print("Loaded map with dimensions: ", width, "x", height)
+	#print("Current cell data: ", curr_cell)
 	
 #func show_buttons(tile):
 	#for child in buttons_container.get_children():
