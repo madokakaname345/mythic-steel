@@ -18,7 +18,7 @@ func _ready():
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
-		var local_mouse_position = to_local(event.position)
+		var local_mouse_position = to_local(event.position + main.map_camera.position)
 		var tile_coords = local_to_map(local_mouse_position)
 		var tile = world_map.cells[tile_coords.x + tile_coords.y * world_map.width]  # Retrieve the tile ID from the coordinates
 		if tile != null && main.curr_selected_obj != tile:

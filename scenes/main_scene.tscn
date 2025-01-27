@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=4 uid="uid://cm8uk6sc74s2l"]
+[gd_scene load_steps=6 format=4 uid="uid://cm8uk6sc74s2l"]
 
 [ext_resource type="PackedScene" uid="uid://dsvl51gcmh51h" path="res://scenes/ui.tscn" id="1_buo6a"]
 [ext_resource type="Script" path="res://scripts/main_scene.gd" id="1_f1ij1"]
 [ext_resource type="PackedScene" uid="uid://rdrqqdxhr3qd" path="res://scenes/tile_map.tscn" id="2_5vuwn"]
+[ext_resource type="PackedScene" uid="uid://28tyrhgldtxs" path="res://scenes/map_camera.tscn" id="4_fkhle"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_bsibk"]
 
@@ -19,3 +20,6 @@ tile_map_data = PackedByteArray("AADv//P/AAADAAgAAADv//T/AAADAAkAAADv//X/AAADAAo
 position = Vector2(8, 8)
 scale = Vector2(16, 16)
 texture = SubResource("PlaceholderTexture2D_bsibk")
+
+[node name="MapCamera" parent="." instance=ExtResource("4_fkhle")]
+anchor_mode = 0

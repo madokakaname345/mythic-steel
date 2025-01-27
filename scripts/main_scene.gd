@@ -3,6 +3,7 @@ class_name Main extends Node2D
 var curr_selected_obj
 @onready var ui = get_node("/root/MainScene/UI")
 @onready var selector = get_node("/root/MainScene/Selector")
+@onready var map_camera = get_node("/root/MainScene/MapCamera")
 var blink_timer = 0
 var blink_on = true
 var blink_interval = 0.5
