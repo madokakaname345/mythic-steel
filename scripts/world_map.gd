@@ -13,6 +13,6 @@ func set_cell(x, y, cell):
 	var index = y * width + x
 	cells[index] = cell
 
-func get_cell(x, y):
-	var index = y * width + x
+func get_cell(coords):
+	var index = coords.y * width + coords.x
 	return cells[index]

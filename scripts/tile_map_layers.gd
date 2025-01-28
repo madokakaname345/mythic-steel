@@ -1,11 +1,16 @@
-extends TileMapLayer
+class_name TileMapLayers extends Node2D
 
 var main
 
 var world_map
+var terrain_layer
+var settlement_layer
+
 
 func _ready():
 	main = get_node("/root/MainScene")
+	terrain_layer = get_node("TerrainLayer")
+	settlement_layer = get_node("SettlementLayer")
 	#side_panel = get_node("/root/MainScene/UI/SidePanel")
 	#rich_text_label = side_panel.get_node("RichTextLabel")
 	#buttons_container = side_panel.get_node("ButtonsContainer")
@@ -14,10 +19,10 @@ func _ready():
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
 		var local_mouse_position = to_local(event.position + main.map_camera.position)
-		var tile_coords = local_to_map(local_mouse_position)
+		var tile_coords = terrain_layer.local_to_map(local_mouse_position)
 		var tile = world_map.cells[tile_coords.x + tile_coords.y * world_map.width]  # Retrieve the tile ID from the coordinates
 		if tile != null && main.curr_selected_obj != tile:
-			main.selector.set_position(map_to_local(tile_coords))
+			main.selector.set_position(terrain_layer.map_to_local(tile_coords))
 			main.curr_selected_obj = tile
 			main.upd_ui()
 	
@@ -42,11 +47,10 @@ func load_maps(file_name):
 				resources[resource] = content_dict["resources"][resource][y*width + x]
 			var cell = preload("res://scripts/map_cell.gd").new(elevation, moisture, temperature, biome, resources, Vector2i(x, y))
 			world_map.set_cell(x,y,cell)
-			set_cell(Vector2i(x, y), 0, cell.get_atlas_coord(), 0)
+			terrain_layer.set_cell(Vector2i(x, y), 0, cell.get_terrain_graphics(), 0)
 
 func update_tile(coords):
-	pass
-#	set_cell(coords, 0, cell.get_tile_graphics(), 0)
+	settlement_layer.set_cell(coords, 0, world_map.get_cell(coords).get_settlement_graphics(), 0)
 	
 func _increate_elevation(tile):
 	tile.elevation += 1
