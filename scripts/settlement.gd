@@ -12,3 +12,13 @@ func _init(name: String):
 	self.name = name
 	self.population = 1
 	self.food = 10
+	SignalBus.settlement_created.emit(self)
+
+func end_turn():
+	#calc food
+	food += 1
+	if food > 10:
+		food = 5
+		population += 1
+		print("pop growth")
+	print("settlement turn ended")

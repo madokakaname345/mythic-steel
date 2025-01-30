@@ -35,3 +35,14 @@ offset_bottom = -205.0
 [node name="Button" type="Button" parent="SidePanel/ButtonsContainer"]
 layout_mode = 2
 text = "aaaaa"
+
+[node name="EndTurnButton" type="Button" parent="."]
+anchors_preset = -1
+anchor_top = 0.952
+anchor_right = 0.068
+anchor_bottom = 1.0
+offset_top = 0.104004
+offset_right = -0.336006
+text = "End Turn"
+
+[connection signal="pressed" from="EndTurnButton" to="." method="_on_button_pressed"]

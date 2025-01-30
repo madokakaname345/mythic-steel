@@ -9,9 +9,14 @@ var blink_timer = 0
 var blink_on = true
 var blink_interval = 0.5
 
+var curr_turn = 1
+var settlements = []
+
 func _ready():
 	SignalBus.update_ui.connect(upd_ui)
 	SignalBus.update_tile.connect(upd_map)
+	SignalBus.settlement_created.connect(add_settlement)
+	SignalBus.end_turn.connect(end_turn)
 
 func upd_ui():
 	ui.render(curr_selected_obj)
@@ -27,3 +32,12 @@ func _process(delta):
 			selector.visible = blink_on
 			blink_on = !blink_on
 			
+func add_settlement(settlement):
+	settlements.append(settlement)
+
+func end_turn():
+	#make a transation
+	for i in settlements.size():
+		var s = settlements[i]
+		s.end_turn()
+	ui.end_turn_button.text = str("End Turn %s" % curr_turn)

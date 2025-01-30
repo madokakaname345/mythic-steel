@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var rich_text_label = $SidePanel/RichTextLabel
 @onready var buttons_container = $SidePanel/ButtonsContainer
+@onready var end_turn_button = $EndTurnButton
 
 func render(selected_obj):
 	var data = selected_obj.get_ui_data() # string
@@ -20,3 +21,6 @@ func render(selected_obj):
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
 		pass
+
+func _on_button_pressed():
+	SignalBus.end_turn.emit()
