@@ -1,8 +1,8 @@
 class_name TileMapLayers extends Node2D
 
-var main
+var main: Main
 
-var world_map
+var world_map: WorldMap
 var terrain_layer
 var settlement_layer
 
@@ -33,7 +33,7 @@ func load_maps(file_name):
 	var height = content_dict["dimensions"][0]
 	var width = content_dict["dimensions"][1]	
 	
-	world_map = preload("res://scripts/world_map.gd").new(width, height)
+	world_map = preload("res://scripts/world_map.gd").new(width, height, main)
 	
 	
 	for x in range(width):
@@ -45,7 +45,7 @@ func load_maps(file_name):
 			var resources = {}
 			for resource in content_dict["resources"]:
 				resources[resource] = content_dict["resources"][resource][y*width + x]
-			var cell = preload("res://scripts/map_cell.gd").new(elevation, moisture, temperature, biome, resources, Vector2i(x, y))
+			var cell = preload("res://scripts/map_cell.gd").new(elevation, moisture, temperature, biome, resources, Vector2i(x, y), main)
 			world_map.set_cell(x,y,cell)
 			terrain_layer.set_cell(Vector2i(x, y), 0, cell.get_terrain_graphics(), 0)
 
@@ -54,3 +54,19 @@ func update_tile(coords):
 	
 func _increate_elevation(tile):
 	tile.elevation += 1
+
+func get_resources_in_radius(r: int, coords: Vector2i):
+	assert(r >=0, "r should be not negative")
+	var resources = {}
+	if r == 0:
+		return world_map.get_cell(coords).resources
+	for i in range(-r, r):
+		for j in range(-r, r):
+			if (world_map.get_cell(coords + Vector2i(i,j)).resources.size()) > 0:
+				for res_name in world_map.get_cell(coords + Vector2i(i,j)).resources.keys():
+					if resources.has(res_name):
+						resources[res_name] += world_map.get_cell(coords + Vector2i(i,j)).resources[res_name]
+					else:
+						resources[res_name] = world_map.get_cell(coords + Vector2i(i,j)).resources[res_name]
+	return resources
+	

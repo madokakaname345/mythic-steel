@@ -7,6 +7,7 @@ var biome
 var resources = {}
 var coords
 var settlement
+var main: Main
 
 var atlas_mapping = {
 	0: Vector2i(0, 46),
@@ -26,13 +27,14 @@ var atlas_mapping = {
 }
 
 
-func _init(elevation, moisture, temperature, biome, resources, coords):
+func _init(elevation, moisture, temperature, biome, resources, coords, main):
 	self.elevation = elevation
 	self.moisture = moisture
 	self.temperature = temperature
 	self.biome = biome
 	self.resources = resources
 	self.coords = coords
+	self.main = main
 
 
 func get_terrain_graphics():
@@ -51,7 +53,7 @@ func decr_elevation_ui():
 	SignalBus.update_ui.emit()
 	
 func create_settlement():
-	self.settlement = Settlement.new(str("test settlemend %d %d" % [coords.x, coords.y]))
+	self.settlement = Settlement.new(str("test settlemend %d %d" % [coords.x, coords.y]), self, main)
 	SignalBus.update_tile.emit(coords)
 
 func get_ui_data():
@@ -68,16 +70,26 @@ func get_ui_data():
 	
 	
 func get_ui_buttons():
+	var buttons = []
 	var button1 = Button.new()
 	button1.text = str("add +1 elevation, curr elevation=", self.elevation)  # Set the button's text
 	button1.pressed.connect(Callable(self, "incr_elevation_ui"))
+	buttons.append(button1)
 	
 	var button2 = Button.new()
 	button2.text = str("add -1 elevation, curr elevation=", self.elevation)  # Set the button's text
 	button2.pressed.connect(Callable(self, "decr_elevation_ui"))
+	buttons.append(button2)
 	
 	var button3 = Button.new()
 	button3.text = str("Create settlement", self.elevation)  # Set the button's text
 	button3.pressed.connect(Callable(self, "create_settlement"))
+	buttons.append(button3)
+
+	if settlement != null:
+		var button4 = Button.new()
+		button4.text = str("Build Iron Mine")  # Set the button's text
+		button4.pressed.connect(Callable(self.settlement, "construct_building").bind("Mine"))
+		buttons.append(button4)
 	
-	return [button1, button2, button3]
+	return buttons

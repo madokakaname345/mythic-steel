@@ -41,3 +41,6 @@ func end_turn():
 		var s = settlements[i]
 		s.end_turn()
 	ui.end_turn_button.text = str("End Turn %s" % curr_turn)
+
+func get_resources_in_radius(r: int, coords: Vector2i):
+	return tile_map_layers.get_resources_in_radius(r, coords)
