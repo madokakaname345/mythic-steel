@@ -27,6 +27,23 @@ var atlas_mapping = {
 	13: Vector2i(42, 85),
 }
 
+var movement_cost_mapping = {
+	0: INF, #ocean
+	1: 2, #beach
+	2: 15, #scorched (mountains)
+	3: 20, #bare (mountains)
+	4: 5, #tundra
+	5: 5, #snow
+	6: 8, #desert
+	7: 3, #shrubland
+	8: 10, #taiga
+	9: 2, #grassland
+	10: 8, #temp forest
+	11: 10, #temp rain forest
+	12: 8, # seasonal forest,
+	13: Vector2i(42, 85),
+}
+
 var undiscovered_tile_coords = Vector2i(50, 0)
 
 
@@ -39,6 +56,9 @@ func _init(elevation, moisture, temperature, biome, resources, coords, main):
 	self.coords = coords
 	self.main = main
 	self.visibility = false  # Default to hidden
+
+func get_movement_cost() -> int:
+	return movement_cost_mapping[int(biome)]
 
 
 func get_terrain_graphics(global_visibility: bool):

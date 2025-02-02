@@ -3,8 +3,13 @@ class_name TileMapLayers extends Node2D
 var main: Main
 
 var world_map: WorldMap
-var terrain_layer
-var settlement_layer
+var terrain_layer: TileMapLayer
+var settlement_layer: TileMapLayer
+var highlighted_layer: TileMapLayer
+
+var blink_timer = 0
+var blink_on = true
+var blink_interval = 0.5
 
 var is_globally_visible: bool 
 
@@ -13,6 +18,7 @@ func _ready():
 	main = get_node("/root/MainScene")
 	terrain_layer = get_node("TerrainLayer")
 	settlement_layer = get_node("SettlementLayer")
+	highlighted_layer = get_node("HighlightedLayer")
 	#side_panel = get_node("/root/MainScene/UI/SidePanel")
 	#rich_text_label = side_panel.get_node("RichTextLabel")
 	#buttons_container = side_panel.get_node("ButtonsContainer")
@@ -28,7 +34,13 @@ func _unhandled_input(event):
 			main.selector.set_position(terrain_layer.map_to_local(tile_coords))
 			main.curr_selected_obj = tile
 			main.upd_ui()
-	
+
+func _process(delta):
+	blink_timer += delta
+	if blink_timer >= blink_interval:
+		blink_timer = 0
+		highlighted_layer.set_visible(!highlighted_layer.is_visible)
+		blink_on = !blink_on	
 	
 func load_maps(file_name):
 	var content = FileAccess.open(file_name, FileAccess.READ).get_as_text()
@@ -59,6 +71,14 @@ func update_terrain():
 	for x in range(world_map.width):
 		for y in range(world_map.height):
 			terrain_layer.set_cell(Vector2i(x, y), 0, world_map.get_cell(Vector2i(x, y)).get_terrain_graphics(is_globally_visible), 0)
+
+func clear_highlighted_tiles():
+	highlighted_layer.clear()
+
+func update_highlighted_tiles(tileCoords: Array):
+	clear_highlighted_tiles()
+	for coord in tileCoords:
+		highlighted_layer.set_cell(coord, 0, 1, 0)
 	
 func _increate_elevation(tile):
 	tile.elevation += 1

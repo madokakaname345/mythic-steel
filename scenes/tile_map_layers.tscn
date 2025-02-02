@@ -5726,3 +5726,5 @@ tile_set = SubResource("TileSet_jjock")
 [node name="SettlementLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAEAAAABAAAAAAAAAAEAAAABAAEAAAAAAAEAAAAAAAEAAAAAAAEAAAA=")
 tile_set = SubResource("TileSet_jjock")
+
+[node name="HighlightedLayer" type="TileMapLayer" parent="."]
