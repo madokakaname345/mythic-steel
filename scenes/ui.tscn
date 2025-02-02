@@ -45,4 +45,41 @@ offset_top = 0.104004
 offset_right = -0.336006
 text = "End Turn"
 
-[connection signal="pressed" from="EndTurnButton" to="." method="_on_button_pressed"]
+[node name="DebubPanelButton" type="Button" parent="."]
+anchors_preset = -1
+anchor_top = 0.952
+anchor_right = 0.068
+anchor_bottom = 1.0
+offset_left = 79.0
+offset_top = 1.104
+offset_right = 78.664
+offset_bottom = 1.0
+text = "Toggle Debug Panel"
+
+[node name="DebugPanel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -2.0
+offset_right = -819.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonsContainer" type="GridContainer" parent="DebugPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = 142.0
+offset_right = -1.0
+offset_bottom = -292.0
+
+[node name="Toggle Tiles Visibility" type="Button" parent="DebugPanel/ButtonsContainer"]
+layout_mode = 2
+text = "Toggle Tiles Visibility"
+
+[connection signal="pressed" from="EndTurnButton" to="." method="_on_end_turn_button_pressed"]
+[connection signal="pressed" from="DebubPanelButton" to="." method="_on_debub_panel_button_pressed"]
+[connection signal="pressed" from="DebugPanel/ButtonsContainer/Toggle Tiles Visibility" to="." method="_on_toggle_tiles_visibility_pressed"]

@@ -8,6 +8,7 @@ var resources = {}
 var coords
 var settlement
 var main: Main
+var visibility = false
 
 var atlas_mapping = {
 	0: Vector2i(0, 46),
@@ -26,6 +27,8 @@ var atlas_mapping = {
 	13: Vector2i(42, 85),
 }
 
+var undiscovered_tile_coords = Vector2i(50, 0)
+
 
 func _init(elevation, moisture, temperature, biome, resources, coords, main):
 	self.elevation = elevation
@@ -35,10 +38,14 @@ func _init(elevation, moisture, temperature, biome, resources, coords, main):
 	self.resources = resources
 	self.coords = coords
 	self.main = main
+	self.visibility = false  # Default to hidden
 
 
-func get_terrain_graphics():
-	return atlas_mapping[int(biome)]
+func get_terrain_graphics(global_visibility: bool):
+	if global_visibility || visibility:
+		return atlas_mapping[int(biome)]
+	else:
+		return undiscovered_tile_coords
 
 func get_settlement_graphics():
 	# calc settlement graphics some way

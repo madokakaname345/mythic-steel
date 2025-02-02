@@ -18,6 +18,7 @@ func _init(name: String, cell: MapCell, main: Main):
 	self.resources = {"wood": 100, "stone": 60, "iron": 5}
 	self.cell = cell
 	self.main = main
+	upd_visibility()
 	SignalBus.settlement_created.emit(self)
 
 func end_turn():
@@ -65,3 +66,10 @@ func spend_resources(cost: Dictionary):
 
 func get_nearby_resources():
 	return main.get_resources_in_radius(2, cell.coords)
+
+func upd_visibility():
+	# visibility radius 2
+	for i in range (-2,2 + 1):
+		for j in range(-2,2 + 1):
+			main.tile_map_layers.world_map.get_cell(cell.coords + Vector2i(i,j)).visibility = true
+			SignalBus.update_tile.emit(cell.coords)

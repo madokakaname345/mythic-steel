@@ -17,6 +17,7 @@ func _ready():
 	SignalBus.update_tile.connect(upd_map)
 	SignalBus.settlement_created.connect(add_settlement)
 	SignalBus.end_turn.connect(end_turn)
+	SignalBus.toggle_visibility.connect(toggle_visibility)
 
 func upd_ui():
 	ui.render(curr_selected_obj)
@@ -44,3 +45,7 @@ func end_turn():
 
 func get_resources_in_radius(r: int, coords: Vector2i):
 	return tile_map_layers.get_resources_in_radius(r, coords)
+
+func toggle_visibility():
+	#upd global visibility + redraw terrain
+	tile_map_layers.toggle_global_visibility(true)

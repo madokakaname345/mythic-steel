@@ -6,6 +6,8 @@ var world_map: WorldMap
 var terrain_layer
 var settlement_layer
 
+var is_globally_visible: bool 
+
 
 func _ready():
 	main = get_node("/root/MainScene")
@@ -14,6 +16,7 @@ func _ready():
 	#side_panel = get_node("/root/MainScene/UI/SidePanel")
 	#rich_text_label = side_panel.get_node("RichTextLabel")
 	#buttons_container = side_panel.get_node("ButtonsContainer")
+	is_globally_visible = true
 	load_maps("data/map.json")
 
 func _unhandled_input(event):
@@ -47,10 +50,15 @@ func load_maps(file_name):
 				resources[resource] = content_dict["resources"][resource][y*width + x]
 			var cell = preload("res://scripts/map_cell.gd").new(elevation, moisture, temperature, biome, resources, Vector2i(x, y), main)
 			world_map.set_cell(x,y,cell)
-			terrain_layer.set_cell(Vector2i(x, y), 0, cell.get_terrain_graphics(), 0)
+			terrain_layer.set_cell(Vector2i(x, y), 0, cell.get_terrain_graphics(is_globally_visible), 0)
 
 func update_tile(coords):
 	settlement_layer.set_cell(coords, 0, world_map.get_cell(coords).get_settlement_graphics(), 0)
+
+func update_terrain():
+	for x in range(world_map.width):
+		for y in range(world_map.height):
+			terrain_layer.set_cell(Vector2i(x, y), 0, world_map.get_cell(Vector2i(x, y)).get_terrain_graphics(is_globally_visible), 0)
 	
 func _increate_elevation(tile):
 	tile.elevation += 1
@@ -70,3 +78,8 @@ func get_resources_in_radius(r: int, coords: Vector2i):
 						resources[res_name] = world_map.get_cell(coords + Vector2i(i,j)).resources[res_name]
 	return resources
 	
+
+func toggle_global_visibility(upd_map: bool):
+	is_globally_visible = !is_globally_visible
+	if upd_map:
+		update_terrain()
