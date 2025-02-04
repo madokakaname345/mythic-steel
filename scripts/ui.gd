@@ -6,6 +6,10 @@ extends CanvasLayer
 @onready var debug_panel: Panel = $DebugPanel
 
 func render(selected_obj):
+	if selected_obj is not MapCell:
+		print("selected_obj is not MapCell, currently not supported to render")
+		return
+
 	var data = selected_obj.get_ui_data() # string
 	var buttons = selected_obj.get_ui_buttons() #array of buttons
 	

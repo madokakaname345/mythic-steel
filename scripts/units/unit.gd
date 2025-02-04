@@ -1,13 +1,23 @@
 class_name Unit
 extends RefCounted  # Pure data, no scene
 
+var name: String
+var owner_id: int
+var unit_type: String
+var cost: Dictionary
 var cell: MapCell
 var max_movement_points: int
 var curr_movement_points: int
 var vision_radius: int
 
-func _init(unit_type: String, cell: MapCell, owner_id: int):
+func _init(cell: MapCell):
 	self.cell = cell
-	self.max_movement_points = 20
-	self.curr_movement_points = self.max_movement_points
-	self.vision_radius = 1
+	self.unit_type = unit_type
+	self.owner_id = 1
+
+func upd_visibility():
+	pass
+
+func upd_highlighted():
+	print("highlighted updated")
+	pass

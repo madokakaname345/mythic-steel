@@ -5,6 +5,7 @@ var moisture
 var temperature
 var biome
 var resources = {}
+var units: Array[Unit] = []
 var coords
 var settlement
 var main: Main
@@ -118,5 +119,12 @@ func get_ui_buttons():
 		button4.text = str("Build Iron Mine")  # Set the button's text
 		button4.pressed.connect(Callable(self.settlement, "construct_building").bind("Mine"))
 		buttons.append(button4)
+		
+	if settlement != null:
+		var button5 = Button.new()
+		button5.text = str("Hire Scout")  # Set the button's text
+		button5.pressed.connect(Callable(self.settlement, "hire_unit").bind("Scout"))
+		buttons.append(button5)
+		
 	
 	return buttons

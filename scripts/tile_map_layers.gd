@@ -30,16 +30,32 @@ func _unhandled_input(event):
 		var local_mouse_position = to_local(event.position + main.map_camera.position)
 		var tile_coords = terrain_layer.local_to_map(local_mouse_position)
 		var tile = world_map.cells[tile_coords.x + tile_coords.y * world_map.width]  # Retrieve the tile ID from the coordinates
-		if tile != null && main.curr_selected_obj != tile:
-			main.selector.set_position(terrain_layer.map_to_local(tile_coords))
-			main.curr_selected_obj = tile
+		if tile != null:
+			# select priority: settlement > unit > tile
+			if tile.settlement != null:
+				#if there is a settlement on the tile - select it
+				if tile.settlement.units.size()>0:
+					if main.curr_selected_obj != tile.settlement.units[0]:
+						main.curr_selected_obj = tile.settlement.units[0]
+						var tiles_to_highlight = world_map.get_tiles_in_range(tile.settlement.units[0].cell.coords, tile.settlement.units[0].curr_movement_points)
+						update_highlighted_tiles(tiles_to_highlight)
+			elif tile.units.size() > 0:
+				# if there are units on the tile - select the first one
+				if main.curr_selected_obj != tile.units[0]:
+					main.curr_selected_obj = tile.units[0]
+					var tiles_to_highlight = world_map.get_tiles_in_range(tile.units[0].cell.coords, tile.units[0].movement)
+					update_highlighted_tiles(tiles_to_highlight)
+			elif main.curr_selected_obj != tile:
+				main.curr_selected_obj = tile
+				update_highlighted_tiles([tile_coords])
+			
 			main.upd_ui()
 
 func _process(delta):
 	blink_timer += delta
 	if blink_timer >= blink_interval:
 		blink_timer = 0
-		highlighted_layer.set_visible(!highlighted_layer.is_visible)
+		highlighted_layer.set_visible(blink_on)
 		blink_on = !blink_on	
 	
 func load_maps(file_name):
@@ -78,7 +94,7 @@ func clear_highlighted_tiles():
 func update_highlighted_tiles(tileCoords: Array):
 	clear_highlighted_tiles()
 	for coord in tileCoords:
-		highlighted_layer.set_cell(coord, 0, 1, 0)
+		highlighted_layer.set_cell(coord, 0, Vector2i(24,74), 0)
 	
 func _increate_elevation(tile):
 	tile.elevation += 1

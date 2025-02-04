@@ -39,7 +39,7 @@ func get_tiles_in_range(center: Vector2i, available_movement: int) -> Array:
 		visited[pos] = true
 
 		var cell = get_cell(pos)
-		if cell == null or not cell.is_visible:  # Skip if not visible
+		if cell == null or not cell.visibility:  # Skip if not visible
 			continue
 
 		reachable_tiles.append(pos)

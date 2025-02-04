@@ -5,6 +5,7 @@ var name
 var population
 var food
 var buildings: Array[Building] = []
+var units: Array[Unit] = []
 var resources = {}
 var cell: MapCell
 var main: Main
@@ -31,6 +32,24 @@ func end_turn():
 	for building in buildings:
 		building.on_turn_end()
 	print("settlement turn ended")
+
+func hire_unit(unit_type: String):
+	var new_unit
+
+	match unit_type:
+		"Scout":
+			new_unit = Scout.new(cell)
+		_: 
+			print("Invalid unit type")
+			return
+
+	if not has_resources(new_unit.cost):
+		print("Not enough resources to build", unit_type)
+		return
+
+	spend_resources(new_unit.cost)
+	units.append(new_unit)
+	print(unit_type, "hired successfully!")
 	
 func construct_building(building_type: String):
 	var new_building
