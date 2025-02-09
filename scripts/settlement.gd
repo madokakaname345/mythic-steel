@@ -31,6 +31,8 @@ func end_turn():
 		print("pop growth")
 	for building in buildings:
 		building.on_turn_end()
+	# for unit in units:
+	# 	unit.end_turn()
 	print("settlement turn ended")
 
 func hire_unit(unit_type: String):

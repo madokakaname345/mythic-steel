@@ -29,7 +29,7 @@ var atlas_mapping = {
 }
 
 var movement_cost_mapping = {
-	0: INF, #ocean
+	0: 1000, #ocean
 	1: 2, #beach
 	2: 15, #scorched (mountains)
 	3: 20, #bare (mountains)
@@ -42,7 +42,7 @@ var movement_cost_mapping = {
 	10: 8, #temp forest
 	11: 10, #temp rain forest
 	12: 8, # seasonal forest,
-	13: Vector2i(42, 85),
+	13: 100,
 }
 
 var undiscovered_tile_coords = Vector2i(50, 0)
@@ -125,6 +125,16 @@ func get_ui_buttons():
 		button5.text = str("Hire Scout")  # Set the button's text
 		button5.pressed.connect(Callable(self.settlement, "hire_unit").bind("Scout"))
 		buttons.append(button5)
+
+	if units.size() > 0:
+		var button6 = Button.new()
+		button6.text = str("Move unit")  # Set the button's text
+		button6.pressed.connect(Callable(self.units[0], "move_to"))
+		buttons.append(button6)
+		
 		
 	
 	return buttons
+
+func find_path(target: Vector2i) -> Array:
+	return main.tile_map_layers.world_map.find_path(coords, target)

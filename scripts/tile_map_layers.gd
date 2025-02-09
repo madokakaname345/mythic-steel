@@ -6,6 +6,7 @@ var world_map: WorldMap
 var terrain_layer: TileMapLayer
 var settlement_layer: TileMapLayer
 var highlighted_layer: TileMapLayer
+var unit_layer: TileMapLayer
 
 var blink_timer = 0
 var blink_on = true
@@ -19,6 +20,7 @@ func _ready():
 	terrain_layer = get_node("TerrainLayer")
 	settlement_layer = get_node("SettlementLayer")
 	highlighted_layer = get_node("HighlightedLayer")
+	unit_layer = get_node("UnitLayer")
 	#side_panel = get_node("/root/MainScene/UI/SidePanel")
 	#rich_text_label = side_panel.get_node("RichTextLabel")
 	#buttons_container = side_panel.get_node("ButtonsContainer")
@@ -51,6 +53,12 @@ func _unhandled_input(event):
 			
 			main.upd_ui()
 
+	if event is InputEventMouseButton and event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_RIGHT:
+		var local_mouse_position = to_local(event.position + main.map_camera.position)
+		var tile_coords = terrain_layer.local_to_map(local_mouse_position)
+		var tile = world_map.cells[tile_coords.x + tile_coords.y * world_map.width]  # Retrieve the tile ID from the coordinates
+		main.curr_selected_obj.dir_action(tile.coords)
+
 func _process(delta):
 	blink_timer += delta
 	if blink_timer >= blink_interval:
@@ -81,7 +89,15 @@ func load_maps(file_name):
 			terrain_layer.set_cell(Vector2i(x, y), 0, cell.get_terrain_graphics(is_globally_visible), 0)
 
 func update_tile(coords):
-	settlement_layer.set_cell(coords, 0, world_map.get_cell(coords).get_settlement_graphics(), 0)
+	settlement_layer.erase_cell(coords)
+	unit_layer.erase_cell(coords)
+	if world_map.get_cell(coords).settlement != null:
+		settlement_layer.set_cell(coords, 0, world_map.get_cell(coords).get_settlement_graphics(), 0)
+		return
+	if world_map.get_cell(coords).units.size() > 0:
+		unit_layer.set_cell(coords, 0, world_map.get_cell(coords).units[0].get_graphics(), 0)
+		return
+		
 
 func update_terrain():
 	for x in range(world_map.width):

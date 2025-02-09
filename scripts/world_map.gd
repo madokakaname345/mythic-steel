@@ -68,7 +68,7 @@ func find_path(start: Vector2i, target: Vector2i) -> Array:
 			return reconstruct_path(came_from, current)  # Build final path
 
 		for neighbor in get_neighbors(current):
-			var movement_cost = neighbor.get_movement_cost()
+			var movement_cost = get_cell(neighbor).get_movement_cost()
 			var tentative_g = g_score.get(current, INF) + movement_cost
 
 			if tentative_g < g_score.get(neighbor, INF):  # Found a cheaper path
