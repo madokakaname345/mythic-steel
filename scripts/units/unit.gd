@@ -8,7 +8,7 @@ var cost: Dictionary
 var cell: MapCell
 var max_movement_points: int
 var curr_movement_points: int
-var vision_radius: int
+var visibility_radius: int
 
 func _init(cell: MapCell):
 	self.cell = cell
@@ -17,7 +17,11 @@ func _init(cell: MapCell):
 	SignalBus.unit_created.emit(self)
 
 func upd_visibility():
-	pass
+	# visibility radius 2
+	for i in range (-visibility_radius,visibility_radius + 1):
+		for j in range(-visibility_radius,visibility_radius + 1):
+			cell.main.tile_map_layers.world_map.get_cell(cell.coords + Vector2i(i,j)).visibility = true
+			SignalBus.update_tile.emit(cell.coords + Vector2i(i,j))
 	
 func get_graphics():
 	pass
@@ -52,3 +56,4 @@ func move_unit(coords: Vector2i):
 		curr_movement_points -= new_cell.get_movement_cost()
 		SignalBus.update_tile.emit(coords)
 		SignalBus.update_tile.emit(old_coords)
+	upd_visibility()

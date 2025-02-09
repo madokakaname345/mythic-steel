@@ -91,6 +91,7 @@ func load_maps(file_name):
 func update_tile(coords):
 	settlement_layer.erase_cell(coords)
 	unit_layer.erase_cell(coords)
+	terrain_layer.set_cell(coords, 0, world_map.get_cell(coords).get_terrain_graphics(is_globally_visible), 0)
 	if world_map.get_cell(coords).settlement != null:
 		settlement_layer.set_cell(coords, 0, world_map.get_cell(coords).get_settlement_graphics(), 0)
 		return

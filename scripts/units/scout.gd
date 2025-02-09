@@ -7,7 +7,7 @@ func _init(cell: MapCell):
 	self.cost = {"wood": 50, "stone": 30}
 	self.max_movement_points = 20
 	self.curr_movement_points = self.max_movement_points
-	self.vision_radius = 4
+	self.visibility_radius = 4
 
 func get_graphics():
 	return Vector2i(0,0)
