@@ -7,7 +7,9 @@ var biome
 var resources = {}
 var units: Array[Unit] = []
 var coords
-var settlement
+var settlement: Settlement
+var buidlings: Array[Building] = []
+var max_buidlings = 3
 var main: Main
 var visibility = false
 
@@ -88,7 +90,7 @@ func get_ui_data():
 
 	var data = str("[b]Tile Information[/b]\n[b]Elevation:[/b] %f\n[b]Moisture:[/b] %f\n[b]Temperature:[/b] %f\n[b]Biome:[/b] %d\n" % [elevation, moisture, temperature, biome])
 	if settlement != null:
-		data = data + "[b]Settlement: [/b]" + settlement.name
+		data = data + settlement.get_ui_data()
 	
 	for res_name in resources.keys():
 		var amount = resources[res_name]
@@ -108,23 +110,15 @@ func get_ui_buttons():
 	button2.text = str("add -1 elevation, curr elevation=", self.elevation)  # Set the button's text
 	button2.pressed.connect(Callable(self, "decr_elevation_ui"))
 	buttons.append(button2)
-	
-	var button3 = Button.new()
-	button3.text = str("Create settlement", self.elevation)  # Set the button's text
-	button3.pressed.connect(Callable(self, "create_settlement"))
-	buttons.append(button3)
+
+	if settlement == null:
+		var button3 = Button.new()
+		button3.text = str("Create settlement", self.elevation)  # Set the button's text
+		button3.pressed.connect(Callable(self, "create_settlement"))
+		buttons.append(button3)
 
 	if settlement != null:
-		var button4 = Button.new()
-		button4.text = str("Build Iron Mine")  # Set the button's text
-		button4.pressed.connect(Callable(self.settlement, "construct_building").bind("Mine"))
-		buttons.append(button4)
-		
-	if settlement != null:
-		var button5 = Button.new()
-		button5.text = str("Hire Scout")  # Set the button's text
-		button5.pressed.connect(Callable(self.settlement, "hire_unit").bind("Scout"))
-		buttons.append(button5)
+		buttons += settlement.get_ui_buttons()
 
 	if units.size() > 0:
 		var button6 = Button.new()

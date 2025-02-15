@@ -41,6 +41,9 @@ func _unhandled_input(event):
 						main.curr_selected_obj = tile.settlement.units[0]
 						var tiles_to_highlight = world_map.get_tiles_in_range(tile.settlement.units[0].cell.coords, tile.settlement.units[0].curr_movement_points)
 						update_highlighted_tiles(tiles_to_highlight)
+				else:
+					main.curr_selected_obj = tile
+					update_highlighted_tiles([tile_coords])
 			elif tile.units.size() > 0:
 				# if there are units on the tile - select the first one
 				if main.curr_selected_obj != tile.units[0]:
