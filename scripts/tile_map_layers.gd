@@ -27,6 +27,7 @@ func _ready():
 	is_globally_visible = true
 	load_maps("data/map.json")
 
+# To refactor
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
 		var local_mouse_position = to_local(event.position + main.map_camera.position)

@@ -6,16 +6,28 @@ var name: String
 var buildings: Array[Building] = []
 var units: Array[Unit] = []
 var resources = {}
-var cell: MapCell
+var cells: Array[MapCell]
 var main: Main
+var settlement_selected_tile: MapCell
 
 var atlas_mapping = Vector2i(0, 3)
 
 func _init(name: String, cell: MapCell, main: Main):
 	self.name = name
 	self.resources = {"wood": 100, "stone": 60, "iron": 5, "bmats": 1000}
-	self.cell = cell
 	self.main = main
+	#get 3x3 neighbors
+	self.cells = [cell]
+	cell.settlement = self
+	var neighbor_coords = main.tile_map_layers.world_map.get_neighbors(cell.coords)
+	for coords in neighbor_coords:
+		var temp_cell = main.tile_map_layers.world_map.get_cell(coords)
+		if temp_cell.settlement != null:
+			print("cell already assigned to a settlement")
+			continue
+		self.cells.append(temp_cell)
+		temp_cell.settlement = self
+	settlement_selected_tile = cells[0]
 	upd_visibility()
 	SignalBus.settlement_created.emit(self)
 
@@ -109,7 +121,7 @@ func hire_unit(unit_type: String):
 
 	match unit_type:
 		"Scout":
-			new_unit = Scout.new(cell)
+			new_unit = Scout.new(cells[0])
 		_: 
 			print("Invalid unit type")
 			return
@@ -123,17 +135,16 @@ func hire_unit(unit_type: String):
 	print(unit_type, "hired successfully!")
 	
 func get_cell_with_free_building_slot():
-	if cell.buidlings.size() >= cell.max_buidlings:
-		print("Cannot build more buildings on this cell")
-		return null
-	else:
-		return cell
+	for cell in cells:
+		if cell.buidlings.size() >= cell.max_buidlings:
+			print("Cannot build more buildings on this cell")
+		else:
+			return cell
+	return
 
-func construct_building(building_type: String, cell: MapCell = null): 
+func construct_building(building_type: String, cell: MapCell = self.settlement_selected_tile): 
 	var new_building
 
-	if cell == null:
-		cell = self.cell
 	if cell.buidlings.size() >= cell.max_buidlings:
 		print("Cannot build more buildings on this cell")
 		return
@@ -193,14 +204,14 @@ func spend_resources(cost: Dictionary):
 		resources[resource] -= cost[resource]
 
 func get_nearby_resources():
-	return main.get_resources_in_radius(2, cell.coords)
+	return main.get_resources_in_radius(2, cells[0].coords)
 
 func upd_visibility():
 	# visibility radius 2
 	for i in range (-2,2 + 1):
 		for j in range(-2,2 + 1):
-			main.tile_map_layers.world_map.get_cell(cell.coords + Vector2i(i,j)).visibility = true
-			SignalBus.update_tile.emit(cell.coords)
+			main.tile_map_layers.world_map.get_cell(cells[0].coords + Vector2i(i,j)).visibility = true
+			SignalBus.update_tile.emit(cells[0].coords)
 
 func get_ui_buttons():
 	var buttons = []

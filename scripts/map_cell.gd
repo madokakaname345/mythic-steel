@@ -129,6 +129,10 @@ func get_ui_buttons():
 		
 	
 	return buttons
+	
+func dir_action(coords: Vector2i):
+	if self.settlement != null && self.settlement.cells.has(main.tile_map_layers.world_map.get_cell(coords)):
+		self.settlement.settlement_selected_tile = main.tile_map_layers.world_map.get_cell(coords)
 
 func find_path(target: Vector2i) -> Array:
 	return main.tile_map_layers.world_map.find_path(coords, target)

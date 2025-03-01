@@ -1,0 +1,1 @@
+When user clicks on tile, the selector changes. There are multiple statuses of selectors

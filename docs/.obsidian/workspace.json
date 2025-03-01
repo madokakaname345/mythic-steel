@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Pop Occupation.md",
+                "file": "Selector.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Pop Occupation"
+              "title": "Selector"
             }
           }
         ],
@@ -222,9 +222,10 @@
   },
   "active": "e20f21a12468d5db",
   "lastOpenFiles": [
-    "Pop Residence.md",
     "Settlement.md",
+    "Selector.md",
     "Pop Occupation.md",
+    "Pop Residence.md",
     "Untitled 1.md",
     "Welcome.md"
   ]
