@@ -1,7 +1,7 @@
 # Game Design Document
 
 ## **Game Title**
-*To Be Determined*
+*Mythic Steel*
 
 ## **Core Concept**
 A strategy-RPG hybrid set in an ancient/medieval world. Players manage settlements, resources, and exploration while progressing through technological ages (e.g., Copper, Bronze, Iron, Steel). The focus is on resource production, trade, and survival in a dynamic, procedurally generated world.
@@ -11,6 +11,7 @@ A strategy-RPG hybrid set in an ancient/medieval world. Players manage settlemen
 ## **Core Mechanics**
 
 ### **1. Settlements and Cities**
+Full design: [[Settlement]]
 #### **City System**
 - Cities are central to gameplay and have the following features:
   - **Leveling Up**: Cities level up based on population and production, unlocking additional building slots.
