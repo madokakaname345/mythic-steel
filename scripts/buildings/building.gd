@@ -5,7 +5,12 @@ var cost: Dictionary
 var build_progress: int
 
 # pops are assigned to these slots
-#var residents: Array
+
+# resident slots
+var residents: Array
+var max_residents: int
+
+#worker slots
 var workers: Array
 var max_workers: int
 

@@ -19,8 +19,7 @@ var basic_needs = {
 var basic_needs_progress
 var basic_needs_progress_max = 10
 
-func _init(location):
+func _init():
 	basic_needs_progress = 5
-	self.assignment = location
 	self.owner_id = 1
 	SignalBus.pop_created.emit(self)

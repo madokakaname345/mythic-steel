@@ -6,6 +6,7 @@ func _init(settlement: Settlement, map_cell: MapCell):
 	name = "Debug Farm"
 	cost = {"bmats": 10}
 	max_workers = 3
+	max_residents = 1
 #	workers_required = 5
 
 func can_be_built() -> bool:

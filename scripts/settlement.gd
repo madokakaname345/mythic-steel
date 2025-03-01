@@ -32,15 +32,34 @@ func end_turn():
 	# if pop is over the surv res limit - create new pop of the same culture + religion
 		if pop.basic_needs_progress >= pop.basic_needs_progress_max:
 			# if there is no free space in the city - don't create new pop, keep needs progress
-			var assignemnt_loc = get_free_location()
-			if assignemnt_loc != null:
-				var new_pop = Pop.new(assignemnt_loc)
-				assignemnt_loc.workers.append(new_pop)
-				pop.basic_needs_progress = 5
-				print("pop growth")
+			var work_loc = get_free_work_building()
+			var res_loc = get_free_res_building()
+
+			if res_loc == null:
+				var cell = get_cell_with_free_building_slot()
+				if cell == null:
+					print("no free building slots and res locations, pop growth failed")
+					return
+				else:
+					res_loc = construct_building("DebugSlums", cell)
+
+			var new_pop = Pop.new()
+			new_pop.residence = res_loc
+			res_loc.residents.append(new_pop)
+
+			if work_loc != null:
+				new_pop.assignment = work_loc
+				work_loc.workers.append(new_pop)
+			else:
+				print("unemployed pop created")
+			pop.basic_needs_progress = 5
+			print("pop growth")
+
+
 		elif pop.basic_needs_progress <= 0:
 			# if pop is under the surv res limit - kill the pop
 			pop.assignment.workers.erase(pop)
+			pop.residence.residents.erase(pop)
 			SignalBus.pop_deleted.emit(pop)
 			print("pop died")
 			# pop.queue_free()
@@ -49,7 +68,7 @@ func end_turn():
 func get_all_pops():
 	var pops = []
 	for building in buildings:
-		pops += building.workers
+		pops += building.residents
 	return pops
 
 func spare_resources_on_pop(pop: Pop):
@@ -69,8 +88,16 @@ func spare_resources_on_pop(pop: Pop):
 	pop.basic_needs_progress += basic_needs_progress_change
 	
 
-func get_free_location():
-	# get through every building and look for free slots
+func get_free_res_building():
+	# get through every building and look for free residende slots
+	for building in buildings:
+		if building.max_residents > building.residents.size():
+			return building
+	# if no free res slots - return null
+	return null
+
+func get_free_work_building():
+	# get through every building and look for free worker slots
 	for building in buildings:
 		if building.max_workers > building.workers.size():
 			return building
@@ -95,9 +122,18 @@ func hire_unit(unit_type: String):
 	units.append(new_unit)
 	print(unit_type, "hired successfully!")
 	
-func construct_building(building_type: String):
+func get_cell_with_free_building_slot():
+	if cell.buidlings.size() >= cell.max_buidlings:
+		print("Cannot build more buildings on this cell")
+		return null
+	else:
+		return cell
+
+func construct_building(building_type: String, cell: MapCell = null): 
 	var new_building
 
+	if cell == null:
+		cell = self.cell
 	if cell.buidlings.size() >= cell.max_buidlings:
 		print("Cannot build more buildings on this cell")
 		return
@@ -107,6 +143,10 @@ func construct_building(building_type: String):
 			new_building = IronMine.new(self, cell)
 		"DebugFarm":
 			new_building = DebugFarm.new(self, cell)
+		"DebugResidentialDistrict":
+			new_building = DebugResidentialDistrict.new(self, cell)
+		"DebugSlums":
+			new_building = DebugSlums.new(self, cell)
 		_:
 			print("Invalid building type")
 			return
@@ -123,15 +163,24 @@ func construct_building(building_type: String):
 	cell.buidlings.append(new_building)
 	buildings.append(new_building)
 	print(building_type, "built successfully!")
+	return new_building
 
 func debug_create_pop():
-	var loc = get_free_location()
-	if loc != null:
-		var new_pop = Pop.new(loc)
-		loc.workers.append(new_pop)
-		print("pop created")
-	else:
-		print("no free slots")
+	var res_loc = get_free_res_building()
+	if res_loc == null:
+		print("no free res slots, debug pop creation failed")
+		return
+	
+	var work_loc = get_free_work_building()
+	if work_loc == null:
+		print("no free work slots, debug pop creation failed")
+		return
+
+	var new_pop = Pop.new()
+	res_loc.residents.append(new_pop)
+	new_pop.residence = res_loc
+	work_loc.workers.append(new_pop)
+	new_pop.assignment = work_loc
 
 func has_resources(cost: Dictionary) -> bool:
 	for resource in cost.keys():
@@ -167,14 +216,19 @@ func get_ui_buttons():
 	buttons.append(button5)
 
 	var button6 = Button.new()
-	button6.text = str("Hire Scout")  # Set the button's text
-	button6.pressed.connect(Callable(self, "hire_unit").bind("Scout"))
+	button6.text = str("Build Debug ResidentialDistrict")  # Set the button's text
+	button6.pressed.connect(Callable(self, "construct_building").bind("DebugResidentialDistrict"))
 	buttons.append(button6)
 
 	var button7 = Button.new()
-	button7.text = str("Debug create pop in first free building")  # Set the button's text
-	button7.pressed.connect(Callable(self, "debug_create_pop"))
+	button7.text = str("Hire Scout")  # Set the button's text
+	button7.pressed.connect(Callable(self, "hire_unit").bind("Scout"))
 	buttons.append(button7)
+
+	var button8 = Button.new()
+	button8.text = str("Debug create pop in first free building")  # Set the button's text
+	button8.pressed.connect(Callable(self, "debug_create_pop"))
+	buttons.append(button8)
 
 
 	return buttons
