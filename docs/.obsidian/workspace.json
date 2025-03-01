@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Pop Residence.md",
+                "file": "Settlement.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Pop Residence"
+              "title": "Settlement"
             }
           }
         ],
@@ -194,9 +194,9 @@
   },
   "active": "f73456dd1dfb45e9",
   "lastOpenFiles": [
+    "Pop Residence.md",
+    "Settlement.md",
     "Untitled 1.md",
-    "Welcome.md",
-    "Untitled.md",
-    "Pop Residence.md"
+    "Welcome.md"
   ]
 }
