@@ -17,8 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SignalBus="*res://scripts/SignalBus.gd"
-ResourceTypes="*res://scripts/resource_types.gd"
+SignalBus="*res://scripts/const/SignalBus.gd"
+ResourceTypes="*res://scripts/const/resource_types.gd"
+SelectorTypes="*res://scripts/const/selector_types.gd"
 
 [input]
 

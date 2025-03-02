@@ -8,7 +8,6 @@ var units: Array[Unit] = []
 var resources = {}
 var cells: Array[MapCell]
 var main: Main
-var settlement_selected_tile: MapCell
 
 var atlas_mapping = Vector2i(0, 3)
 
@@ -27,7 +26,6 @@ func _init(name: String, cell: MapCell, main: Main):
 			continue
 		self.cells.append(temp_cell)
 		temp_cell.settlement = self
-	settlement_selected_tile = cells[0]
 	upd_visibility()
 	SignalBus.settlement_created.emit(self)
 
@@ -116,12 +114,16 @@ func get_free_work_building():
 	# if no free slots - return null
 	return null
 
-func hire_unit(unit_type: String):
+func hire_unit(unit_type: String, cell: MapCell = null):
+	
+	if cell == null:
+		print("No cell provided. Please select cell to hire unit on")
+		return
 	var new_unit
 
 	match unit_type:
 		"Scout":
-			new_unit = Scout.new(cells[0])
+			new_unit = Scout.new(cell)
 		_: 
 			print("Invalid unit type")
 			return
@@ -131,7 +133,7 @@ func hire_unit(unit_type: String):
 		return
 
 	spend_resources(new_unit.cost)
-	units.append(new_unit)
+	cell.units.append(new_unit)
 	print(unit_type, "hired successfully!")
 	
 func get_cell_with_free_building_slot():
@@ -142,8 +144,12 @@ func get_cell_with_free_building_slot():
 			return cell
 	return
 
-func construct_building(building_type: String, cell: MapCell = self.settlement_selected_tile): 
+func construct_building(building_type: String, cell: MapCell = null): 
 	var new_building
+
+	if cell == null:
+		print("No cell provided. Please select cell to build on")
+		return
 
 	if cell.buidlings.size() >= cell.max_buidlings:
 		print("Cannot build more buildings on this cell")
@@ -215,25 +221,28 @@ func upd_visibility():
 
 func get_ui_buttons():
 	var buttons = []
+	var selected_cell
+	if main.selector.selector_type == SelectorTypes.SELECTOR_TYPE.SETTLEMENT_TILE:
+		selected_cell = main.selector.selected_object
 	# get settlement buttons
 	var button4 = Button.new()
 	button4.text = str("Build Iron Mine")  # Set the button's text
-	button4.pressed.connect(Callable(self, "construct_building").bind("Mine"))
+	button4.pressed.connect(Callable(self, "construct_building").bind("Mine", selected_cell))
 	buttons.append(button4)
 
 	var button5 = Button.new()
 	button5.text = str("Build Debug Farm")  # Set the button's text
-	button5.pressed.connect(Callable(self, "construct_building").bind("DebugFarm"))
+	button5.pressed.connect(Callable(self, "construct_building").bind("DebugFarm", selected_cell))
 	buttons.append(button5)
 
 	var button6 = Button.new()
 	button6.text = str("Build Debug ResidentialDistrict")  # Set the button's text
-	button6.pressed.connect(Callable(self, "construct_building").bind("DebugResidentialDistrict"))
+	button6.pressed.connect(Callable(self, "construct_building").bind("DebugResidentialDistrict", selected_cell))
 	buttons.append(button6)
 
 	var button7 = Button.new()
 	button7.text = str("Hire Scout")  # Set the button's text
-	button7.pressed.connect(Callable(self, "hire_unit").bind("Scout"))
+	button7.pressed.connect(Callable(self, "hire_unit").bind("Scout", selected_cell))
 	buttons.append(button7)
 
 	var button8 = Button.new()

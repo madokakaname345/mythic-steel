@@ -5,20 +5,34 @@ extends CanvasLayer
 @onready var end_turn_button = $EndTurnButton
 @onready var debug_panel: Panel = $DebugPanel
 
-func render(selected_obj):
-	if selected_obj is not MapCell:
-		print("selected_obj is not MapCell, currently not supported to render")
-		return
-
-	var data = selected_obj.get_ui_data() # string
-	var buttons = selected_obj.get_ui_buttons() #array of buttons
-	
+func render(selector):
+	var data
+	var buttons
 	rich_text_label.clear()
-	rich_text_label.append_text(data)
-	
+	#buttons_container.clear()
 	for child in buttons_container.get_children():
 		buttons_container.remove_child(child)
 		child.queue_free()  # Queue the child for deletion
+	match selector.selector_type:
+		SelectorTypes.SELECTOR_TYPE.TILE:
+			data = selector.selected_object.get_ui_data()
+			buttons = selector.selected_object.get_ui_buttons()
+		SelectorTypes.SELECTOR_TYPE.SETTLEMENT:
+			data = selector.selected_object.get_ui_data()
+			buttons = selector.selected_object.get_ui_buttons()
+		SelectorTypes.SELECTOR_TYPE.UNIT:
+			data = selector.selected_object.get_ui_data()
+			buttons = selector.selected_object.get_ui_buttons()
+		SelectorTypes.SELECTOR_TYPE.SETTLEMENT_TILE:
+			data = selector.selected_object.get_ui_data()
+			buttons = selector.selected_object.get_ui_buttons()		
+		SelectorTypes.SELECTOR_TYPE.NONE:
+			data = ""
+			buttons = []
+		_:
+			push_error("Selector: unknown selector type") # should never happen
+	
+	rich_text_label.append_text(data)
 		
 	for button in buttons:
 		buttons_container.add_child(button)

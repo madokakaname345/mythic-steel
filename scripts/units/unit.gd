@@ -56,4 +56,11 @@ func move_unit(coords: Vector2i):
 		curr_movement_points -= new_cell.get_movement_cost()
 		SignalBus.update_tile.emit(coords)
 		SignalBus.update_tile.emit(old_coords)
+		SignalBus.update_ui.emit()
 	upd_visibility()
+	
+func get_ui_data():
+	return str("[b]This is a dumb unit of a type [/b]\n[b]Type:[/b] %s\n" % self.unit_type)
+	
+func get_ui_buttons():
+	return []

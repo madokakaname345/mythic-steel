@@ -1,7 +1,7 @@
 class_name Main extends Node2D
 
-var curr_selected_obj
-var curr_selected_func: Callable
+var selector = Selector.new(self)
+
 @onready var ui = get_node("UI")
 #@onready var selector = get_node("Selector")
 @onready var map_camera = get_node("MapCamera")
@@ -21,21 +21,23 @@ func _ready():
 	SignalBus.unit_created.connect(add_unit)
 	SignalBus.end_turn.connect(end_turn)
 	SignalBus.toggle_visibility.connect(toggle_visibility)
+	SignalBus.process_select.connect(process_select)
 
 func upd_ui():
-	ui.render(curr_selected_obj)
+	ui.render(selector)
+	tile_map_layers.update_highlighted_tiles(selector)
 	
 func upd_map(coords):
 	tile_map_layers.update_tile(coords)
 
+func get_world_map():
+	return tile_map_layers.world_map
+
+func get_terrain_layer():
+	return tile_map_layers.terrain_layer
+
 func _process(delta):
 	pass
-	#blink_timer += delta
-	#if blink_timer >= blink_interval:
-		#blink_timer = 0
-		#if curr_selected_obj != null:
-			#selector.visible = blink_on
-			#blink_on = !blink_on
 			
 func add_settlement(settlement):
 	settlements.append(settlement)
@@ -59,3 +61,7 @@ func get_resources_in_radius(r: int, coords: Vector2i):
 func toggle_visibility():
 	#upd global visibility + redraw terrain
 	tile_map_layers.toggle_global_visibility(true)
+
+func process_select(coords):
+	selector.select_object(coords)
+	ui.render(selector)	

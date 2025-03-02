@@ -6,6 +6,8 @@ signal settlement_created(settlement)
 signal unit_created(unit)
 signal pop_created(pop)
 signal pop_deleted(pop)
+signal process_select(coords)
+signal selection_changed(select_object)
 signal end_turn
 
 

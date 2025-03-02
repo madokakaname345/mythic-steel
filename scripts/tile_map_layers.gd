@@ -27,41 +27,18 @@ func _ready():
 	is_globally_visible = true
 	load_maps("data/map.json")
 
-# To refactor
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
 		var local_mouse_position = to_local(event.position + main.map_camera.position)
 		var tile_coords = terrain_layer.local_to_map(local_mouse_position)
-		var tile = world_map.cells[tile_coords.x + tile_coords.y * world_map.width]  # Retrieve the tile ID from the coordinates
-		if tile != null:
-			# select priority: settlement > unit > tile
-			if tile.settlement != null:
-				#if there is a settlement on the tile - select it
-				if tile.settlement.units.size()>0:
-					if main.curr_selected_obj != tile.settlement.units[0]:
-						main.curr_selected_obj = tile.settlement.units[0]
-						var tiles_to_highlight = world_map.get_tiles_in_range(tile.settlement.units[0].cell.coords, tile.settlement.units[0].curr_movement_points)
-						update_highlighted_tiles(tiles_to_highlight)
-				else:
-					main.curr_selected_obj = tile
-					update_highlighted_tiles([tile_coords])
-			elif tile.units.size() > 0:
-				# if there are units on the tile - select the first one
-				if main.curr_selected_obj != tile.units[0]:
-					main.curr_selected_obj = tile.units[0]
-					var tiles_to_highlight = world_map.get_tiles_in_range(tile.units[0].cell.coords, tile.units[0].movement)
-					update_highlighted_tiles(tiles_to_highlight)
-			elif main.curr_selected_obj != tile:
-				main.curr_selected_obj = tile
-				update_highlighted_tiles([tile_coords])
-			
-			main.upd_ui()
+		SignalBus.process_select.emit(tile_coords)
 
+	#TODO: refactor as for left mouse button
 	if event is InputEventMouseButton and event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_RIGHT:
 		var local_mouse_position = to_local(event.position + main.map_camera.position)
 		var tile_coords = terrain_layer.local_to_map(local_mouse_position)
 		var tile = world_map.cells[tile_coords.x + tile_coords.y * world_map.width]  # Retrieve the tile ID from the coordinates
-		main.curr_selected_obj.dir_action(tile.coords)
+		main.selector.selected_object.dir_action(tile.coords)
 
 func _process(delta):
 	blink_timer += delta
@@ -112,10 +89,11 @@ func update_terrain():
 func clear_highlighted_tiles():
 	highlighted_layer.clear()
 
-func update_highlighted_tiles(tileCoords: Array):
+func update_highlighted_tiles(selector: Selector):
 	clear_highlighted_tiles()
-	for coord in tileCoords:
-		highlighted_layer.set_cell(coord, 0, Vector2i(24,74), 0)
+	var tiles_to_highlight = selector.get_highlighted_tiles()
+	for tile in tiles_to_highlight:
+		highlighted_layer.set_cell(tile, 0, tiles_to_highlight[tile], 0)
 	
 func _increate_elevation(tile):
 	tile.elevation += 1
