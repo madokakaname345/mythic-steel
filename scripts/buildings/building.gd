@@ -27,3 +27,18 @@ func can_be_built() -> bool:
 
 func on_turn_end():
 	pass  # Default: No effect
+
+func get_workers() -> Array:
+	return workers
+
+func get_max_workers() -> int:
+	return max_workers
+
+func get_residents() -> Array:
+	return residents
+
+func get_max_residents() -> int:
+	return max_residents
+	
+func get_name():
+	return name

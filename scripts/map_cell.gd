@@ -89,16 +89,18 @@ func create_settlement():
 func get_ui_data():
 
 	var data = str("[b]Tile Information[/b]\n[b]Elevation:[/b] %f\n[b]Moisture:[/b] %f\n[b]Temperature:[/b] %f\n[b]Biome:[/b] %d\n" % [elevation, moisture, temperature, biome])
-	if settlement != null:
-		data = data + settlement.get_ui_data()
-	
-	for res_name in resources.keys():
-		var amount = resources[res_name]
-		data = str(data, "- [color=green]%s[/color]: %d\n" % [res_name, amount])
 	
 	return data	
-	
-	
+
+func get_resources():
+	return resources	
+
+func get_buildings():
+	return buidlings
+
+func get_max_buildings():
+	return max_buidlings
+
 func get_ui_buttons():
 	var buttons = []
 	var button1 = Button.new()

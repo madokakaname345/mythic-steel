@@ -1,4 +1,4 @@
-extends Panel
+class_name ResourceRowUI extends HBoxContainer
 
 @onready var resource_name = $ResName
 @onready var resource_amount = $ResAmount

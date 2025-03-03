@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://vdpc0fnfkevf"]
+
+[ext_resource type="Script" path="res://scripts/ui/tile_ui.gd" id="1_m282d"]
+[ext_resource type="PackedScene" uid="uid://cl3w0b83qpd3f" path="res://scenes/ui/resource_row_ui.tscn" id="2_sht6o"]
+[ext_resource type="PackedScene" uid="uid://c12re3bqvpvfn" path="res://scenes/ui/structure_row_ui.tscn" id="3_jq0vw"]
+
+[node name="Control" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m282d")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.003
+offset_right = -4.0
+offset_bottom = -2.94403
+
+[node name="TileInfo" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]Tile info[/b]"
+fit_content = true
+
+[node name="ResourcesLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Resources:"
+
+[node name="ResourcesContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ResourcesContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+
+[node name="ResourceRowExample" parent="VBoxContainer/ResourcesContainer/VBoxContainer" instance=ExtResource("2_sht6o")]
+layout_mode = 2
+
+[node name="Structures" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Structures:"
+
+[node name="StructureContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/StructureContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+
+[node name="StructureRowExample" parent="VBoxContainer/StructureContainer/VBoxContainer" instance=ExtResource("3_jq0vw")]
+layout_mode = 2
+
+[node name="PossibleActions" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Possible Actions:"
+
+[node name="ButtonsContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ButtonsContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/ButtonsContainer/VBoxContainer"]
+layout_mode = 2
+text = "Action1"
