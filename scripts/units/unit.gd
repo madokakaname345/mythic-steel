@@ -64,3 +64,15 @@ func get_ui_data():
 	
 func get_ui_buttons():
 	return []
+
+func get_name():
+	return name
+	
+func get_type():
+	return unit_type
+	
+func get_max_movement_points():
+	return max_movement_points
+	
+func get_curr_movement_points():
+	return curr_movement_points

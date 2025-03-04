@@ -259,3 +259,6 @@ func get_ui_buttons():
 func get_ui_data():
 	var data = str("[b]Settlement Information[/b]\n[b]Name:[/b] %s" % name)
 	return data
+
+func get_name():
+	return name

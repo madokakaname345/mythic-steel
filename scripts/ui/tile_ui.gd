@@ -4,6 +4,7 @@ class_name TileUI extends Panel
 @onready var resources_container = $VBoxContainer/ResourcesContainer/VBoxContainer
 @onready var structures_container = $VBoxContainer/StructureContainer/VBoxContainer
 @onready var tile_info = $VBoxContainer/TileInfo
+@onready var settlement_info = $VBoxContainer/SettlementInfo
 
 var resource_row_scene = preload("res://scenes/ui/resource_row_ui.tscn")
 var structure_row_scene = preload("res://scenes/ui/structure_row_ui.tscn")
@@ -13,6 +14,8 @@ func _ready():
 
 func render(selector: Selector):
 	tile_info.clear()
+	settlement_info.clear()
+	settlement_info.set_visible(false)
 	for child in buttons_container.get_children():
 		buttons_container.remove_child(child)
 		child.queue_free()  # Queue the child for deletion
@@ -25,16 +28,16 @@ func render(selector: Selector):
 		
 		
 	match selector.selector_type:
-		SelectorTypes.SELECTOR_TYPE.TILE:
-			fill_tile_info(selector.selected_object)
-		SelectorTypes.SELECTOR_TYPE.SETTLEMENT_TILE:
+		SelectorTypes.SELECTOR_TYPE.TILE, SelectorTypes.SELECTOR_TYPE.SETTLEMENT_TILE:
 			fill_tile_info(selector.selected_object)
 		_:
 			push_error("Incorrect selector type for the tile ui") # should never happen
-	
 	pass
 
 func fill_tile_info(selected_object: MapCell):
+	if selected_object.settlement != null:
+		settlement_info.set_visible(true)
+		settlement_info.append_text(str("Settlement: %s" % selected_object.get_settlement().get_name()))
 	tile_info.append_text(selected_object.get_ui_data())
 	var resources = selected_object.get_resources()
 		

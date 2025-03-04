@@ -26,6 +26,11 @@ bbcode_enabled = true
 text = "[b]Tile info[/b]"
 fit_content = true
 
+[node name="SettlementInfo" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+text = "Settlement: "
+fit_content = true
+
 [node name="ResourcesLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Resources:"

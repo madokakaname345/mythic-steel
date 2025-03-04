@@ -73,7 +73,10 @@ func get_terrain_graphics(global_visibility: bool):
 func get_settlement_graphics():
 	# calc settlement graphics some way
 	return Vector2i(0, 1)
-	
+
+func get_settlement():
+	return settlement
+
 func incr_elevation_ui():
 	self.elevation += 1
 	SignalBus.update_ui.emit()

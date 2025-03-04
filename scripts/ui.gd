@@ -6,6 +6,7 @@ extends CanvasLayer
 
 var tile_ui = preload("res://scenes/ui/tile_ui.tscn")
 var settlement_ui = preload("res://scenes/ui/settlement_ui.tscn")
+var unit_ui = preload("res://scenes/ui/unit_ui.tscn")
 	
 
 func render(selector):
@@ -17,9 +18,7 @@ func render(selector):
 		child.queue_free()  # Queue the child for deletion
 
 	match selector.selector_type:
-		SelectorTypes.SELECTOR_TYPE.TILE:
-			# data = selector.selected_object.get_ui_data()
-			# buttons = selector.selected_object.get_ui_buttons()
+		SelectorTypes.SELECTOR_TYPE.TILE, SelectorTypes.SELECTOR_TYPE.SETTLEMENT_TILE:
 			var tile_ui_instance = tile_ui.instantiate()
 			side_panel.add_child(tile_ui_instance)
 			tile_ui_instance.render(selector)
@@ -28,12 +27,9 @@ func render(selector):
 			side_panel.add_child(settlement_ui_instance)
 			settlement_ui_instance.render(selector)
 		SelectorTypes.SELECTOR_TYPE.UNIT:
-			data = selector.selected_object.get_ui_data()
-			buttons = selector.selected_object.get_ui_buttons()
-		SelectorTypes.SELECTOR_TYPE.SETTLEMENT_TILE:
-			var tile_ui_instance = tile_ui.instantiate()
-			side_panel.add_child(tile_ui_instance)
-			tile_ui_instance.render(selector)
+			var unit_ui_instance = unit_ui.instantiate()
+			side_panel.add_child(unit_ui_instance)
+			unit_ui_instance.render(selector)
 		SelectorTypes.SELECTOR_TYPE.NONE:
 			data = ""
 			buttons = []
