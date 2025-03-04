@@ -5,6 +5,8 @@ extends CanvasLayer
 @onready var debug_panel: Panel = $DebugPanel
 
 var tile_ui = preload("res://scenes/ui/tile_ui.tscn")
+var settlement_ui = preload("res://scenes/ui/settlement_ui.tscn")
+	
 
 func render(selector):
 	var data
@@ -22,8 +24,9 @@ func render(selector):
 			side_panel.add_child(tile_ui_instance)
 			tile_ui_instance.render(selector)
 		SelectorTypes.SELECTOR_TYPE.SETTLEMENT:
-			data = selector.selected_object.get_ui_data()
-			buttons = selector.selected_object.get_ui_buttons()
+			var settlement_ui_instance = settlement_ui.instantiate()
+			side_panel.add_child(settlement_ui_instance)
+			settlement_ui_instance.render(selector)
 		SelectorTypes.SELECTOR_TYPE.UNIT:
 			data = selector.selected_object.get_ui_data()
 			buttons = selector.selected_object.get_ui_buttons()

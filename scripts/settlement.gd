@@ -81,6 +81,9 @@ func get_all_pops():
 		pops += building.residents
 	return pops
 
+func get_tiles():
+	return cells
+
 func spare_resources_on_pop(pop: Pop):
 	# get pop's basic needs
 	var basic_needs_progress_change = 1
@@ -254,12 +257,5 @@ func get_ui_buttons():
 	return buttons
 
 func get_ui_data():
-	var data = str("[b]Settlement Information[/b]\n[b]Name:[/b] %s\n[b]Population:[/b] %d\n" % [name, get_all_pops().size()])
-	data = data + "[b]Resources: [/b]:\n"
-	for res_name in resources.keys():
-		var amount = resources[res_name]
-		data = str(data, "- [color=green]%s[/color]: %d\n" % [res_name, amount])
-	data = data + "[b]Buildings: [/b]:\n"
-	for building in buildings:
-		data = str(data, "- [color=green]%s[/color]\n[b]Pops:[\b] %d\n[b]Max pops:[\b] %d" % [building.name, building.workers.size(), building.max_workers])
+	var data = str("[b]Settlement Information[/b]\n[b]Name:[/b] %s" % name)
 	return data

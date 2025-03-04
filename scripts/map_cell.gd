@@ -138,3 +138,30 @@ func dir_action(coords: Vector2i):
 
 func find_path(target: Vector2i) -> Array:
 	return main.tile_map_layers.world_map.find_path(coords, target)
+
+func get_biome():
+	return biome
+
+func get_workers_amount():
+	var workers = 0
+	for building in buidlings:
+		workers += building.get_workers().size()
+	return workers
+
+func get_max_workers_amount():
+	var workers = 0
+	for building in buidlings:
+		workers += building.get_max_workers()
+	return workers 
+
+func get_max_residents_amount():
+	var residents = 0
+	for building in buidlings:
+		residents += building.get_max_residents()
+	return residents
+
+func get_residents_amount():
+	var residents = 0
+	for building in buidlings:
+		residents += building.get_residents().size()
+	return residents

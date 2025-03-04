@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://cblmoak43tdu8"]
+
+[ext_resource type="Script" path="res://scripts/ui/tile_row_ui.gd" id="1_aafte"]
+
+[node name="Control" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_aafte")
+
+[node name="Biome" type="Label" parent="."]
+layout_mode = 2
+text = "Biome"
+
+[node name="VSeparator3" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="PopsInfo" type="Label" parent="."]
+layout_mode = 2
+text = "Workers: X, Residents: Y"
+
+[node name="VSeparator4" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="StructuresContainer" type="ScrollContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StructuresContainer"]
+layout_mode = 2
+
+[node name="NavigateButton" type="Button" parent="StructuresContainer/HBoxContainer"]
+layout_mode = 2
+text = "test"
