@@ -137,6 +137,7 @@ func hire_unit(unit_type: String, cell: MapCell = null):
 
 	spend_resources(new_unit.cost)
 	cell.units.append(new_unit)
+	SignalBus.unit_created.emit(new_unit)
 	print(unit_type, "hired successfully!")
 	
 func get_cell_with_free_building_slot():

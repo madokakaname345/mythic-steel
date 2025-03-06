@@ -12,6 +12,9 @@ var blink_timer = 0
 var blink_on = true
 var blink_interval = 0.5
 
+var height: int
+var width: int
+
 var is_globally_visible: bool 
 
 
@@ -50,8 +53,8 @@ func _process(delta):
 func load_maps(file_name):
 	var content = FileAccess.open(file_name, FileAccess.READ).get_as_text()
 	var content_dict = JSON.parse_string(content)
-	var height = content_dict["dimensions"][0]
-	var width = content_dict["dimensions"][1]	
+	height = content_dict["dimensions"][0]
+	width = content_dict["dimensions"][1]	
 	
 	world_map = preload("res://scripts/world_map.gd").new(width, height, main)
 	
@@ -79,7 +82,11 @@ func update_tile(coords):
 	if world_map.get_cell(coords).units.size() > 0:
 		unit_layer.set_cell(coords, 0, world_map.get_cell(coords).units[0].get_graphics(), 0)
 		return
-		
+
+func update_map(x_start=0, y_start=0, x_end=width, y_end=height):
+	for x in range(x_start, x_end):
+		for y in range(y_start, y_end):
+			update_tile(Vector2i(x, y))
 
 func update_terrain():
 	for x in range(world_map.width):

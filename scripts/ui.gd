@@ -8,8 +8,14 @@ var tile_ui = preload("res://scenes/ui/tile_ui.tscn")
 var settlement_ui = preload("res://scenes/ui/settlement_ui.tscn")
 var unit_ui = preload("res://scenes/ui/unit_ui.tscn")
 	
+var main: Main
 
 func render(selector):
+	render_panel(selector)
+	main.get_tile_map_layers().update_highlighted_tiles(selector)
+	main.get_tile_map_layers().update_map()
+
+func render_panel(selector):
 	var data
 	var buttons
 
