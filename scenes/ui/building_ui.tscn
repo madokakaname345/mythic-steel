@@ -1,0 +1,67 @@
+[gd_scene load_steps=3 format=3 uid="uid://vdpc0fnfkevf"]
+
+[ext_resource type="PackedScene" uid="uid://bwulx6xbpe2e7" path="res://scenes/ui/production_row_ui.tscn" id="1_0hlds"]
+[ext_resource type="Script" path="res://scripts/ui/building_ui.gd" id="1_q0d4u"]
+
+[node name="Control" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q0d4u")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.003
+offset_right = -4.0
+offset_bottom = -2.94403
+
+[node name="BuildingInfo" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]Building info[/b]"
+fit_content = true
+
+[node name="SettlementInfo" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+text = "Settlement: "
+fit_content = true
+
+[node name="BuildingType" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+text = "Building Type:"
+fit_content = true
+
+[node name="ProductionSlots" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Production Slots:"
+
+[node name="ProductionContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ProductionContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+
+[node name="Control" parent="VBoxContainer/ProductionContainer/VBoxContainer" instance=ExtResource("1_0hlds")]
+layout_mode = 2
+
+[node name="PossibleActions" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Possible Actions:"
+
+[node name="ButtonsContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ButtonsContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/ButtonsContainer/VBoxContainer"]
+layout_mode = 2
+text = "Action1"

@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 SignalBus="*res://scripts/const/SignalBus.gd"
 ResourceTypes="*res://scripts/const/resource_types.gd"
 SelectorTypes="*res://scripts/const/selector_types.gd"
+Consts="*res://scripts/const/consts.gd"
 
 [input]
 

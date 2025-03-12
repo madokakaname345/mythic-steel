@@ -10,6 +10,9 @@ signal process_select(coords)
 signal selection_changed(select_object)
 signal end_turn
 
+#selector signals
+signal select_building(building)
+
 
 #debug signals
 signal toggle_debug_panel

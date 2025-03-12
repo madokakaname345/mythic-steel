@@ -23,11 +23,16 @@ func _ready():
 	SignalBus.end_turn.connect(end_turn)
 	SignalBus.toggle_visibility.connect(toggle_visibility)
 	SignalBus.process_select.connect(process_select)
+	SignalBus.select_building.connect(select_building)
 
 
 	# add main to some classes
 	ui.main = self
 	
+func select_building(building):
+	selector.selector_type = SelectorTypes.SELECTOR_TYPE.BUILDING
+	selector.selected_object = building
+	ui.render(selector)
 
 func upd_ui():
 	ui.render(selector)

@@ -169,8 +169,9 @@ func construct_building(building_type: String, cell: MapCell = null):
 		"DebugSlums":
 			new_building = DebugSlums.new(self, cell)
 		_:
-			print("Invalid building type")
-			return
+			print("building from file")
+			new_building = Building.new(self, cell)
+			new_building.load(building_type)
 
 	if not new_building.can_be_built():
 		print(building_type, "cannot be built at", cell.coords)
@@ -253,6 +254,11 @@ func get_ui_buttons():
 	button8.text = str("Debug create pop in first free building")  # Set the button's text
 	button8.pressed.connect(Callable(self, "debug_create_pop"))
 	buttons.append(button8)
+
+	var button9 = Button.new()
+	button9.text = str("create settlement from file")  # Set the button's text
+	button9.pressed.connect(Callable(self, "construct_building").bind("data/buildings/debug_farm.json", selected_cell))
+	buttons.append(button9)
 
 
 	return buttons

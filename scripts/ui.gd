@@ -7,6 +7,7 @@ extends CanvasLayer
 var tile_ui = preload("res://scenes/ui/tile_ui.tscn")
 var settlement_ui = preload("res://scenes/ui/settlement_ui.tscn")
 var unit_ui = preload("res://scenes/ui/unit_ui.tscn")
+var building_ui = preload("res://scenes/ui/building_ui.tscn")
 	
 var main: Main
 
@@ -36,6 +37,11 @@ func render_panel(selector):
 			var unit_ui_instance = unit_ui.instantiate()
 			side_panel.add_child(unit_ui_instance)
 			unit_ui_instance.render(selector)
+		SelectorTypes.SELECTOR_TYPE.BUILDING:
+			var building_ui_instance = building_ui.instantiate()
+			side_panel.add_child(building_ui_instance)
+			building_ui_instance.render(selector)
+
 		SelectorTypes.SELECTOR_TYPE.NONE:
 			data = ""
 			buttons = []

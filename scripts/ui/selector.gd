@@ -76,9 +76,17 @@ func select_object(coords: Vector2i):
 			selected_object = null
 			selector_type = SelectorTypes.SELECTOR_TYPE.NONE
 			select_object(coords)
-
+			
+		elif selector_type == SelectorTypes.SELECTOR_TYPE.BUILDING:
+			# if current selection is a building
+			# do nothing
+			selected_object = null
+			selector_type = SelectorTypes.SELECTOR_TYPE.NONE
+			select_object(coords)
+		
 		else:
-			push_error("Selector: unknown selector type") # should never happen
+			print("Selector: unknown selector type") # should never happen
+		
 
 		main.upd_ui()
 
@@ -99,5 +107,9 @@ func get_highlighted_tiles():
 			for cell in selected_object.settlement.cells:
 				result[cell.coords] = blue_highlited_color
 			result[selected_object.coords] = brown_highlited_color
+		SelectorTypes.SELECTOR_TYPE.BUILDING:
+			for cell in selected_object.settlement.cells:
+				result[cell.coords] = blue_highlited_color
+			result[selected_object.map_cell.coords] = brown_highlited_color
 	
 	return result

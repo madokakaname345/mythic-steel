@@ -10,7 +10,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4ifjl")
 
-[node name="StructureName" type="Label" parent="."]
+[node name="StructureNaviButton" type="Button" parent="."]
 layout_mode = 2
 text = "Structure Name"
 
@@ -20,10 +20,3 @@ layout_mode = 2
 [node name="PopsInfo" type="Label" parent="."]
 layout_mode = 2
 text = "Workers: X, Residents: Y"
-
-[node name="VSeparator2" type="VSeparator" parent="."]
-layout_mode = 2
-
-[node name="NavigateButton" type="Button" parent="."]
-layout_mode = 2
-text = "test"

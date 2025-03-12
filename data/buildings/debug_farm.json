@@ -1,0 +1,20 @@
+{
+	"name": "Debug Farm",
+	"type": "A debug farm for testing purposes.",
+
+	"cost": {
+		"bmats": 10
+	},
+	"production_options": [
+		{
+			"name": "Wheat",
+			"description": "A simple crop that grows quickly.",
+			"input": {
+				"AGRICULTURE": 1
+			},
+			"output": {
+				"FOOD": 10
+			}
+		}
+	]
+}

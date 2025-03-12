@@ -53,9 +53,7 @@ func fill_tile_info(selected_object: MapCell):
 	for building in buildings:
 		var building_row = structure_row_scene.instantiate()
 		structures_container.add_child(building_row)
-		building_row.set_structure_name(building.get_name())
-		building_row.set_pops_info(building.get_workers().size(), building.get_max_workers(), building.get_residents().size(), building.get_max_residents())
-		building_row.set_navigate_button_text("Navigate")
+		building_row.set_structure(building)
 	
 	var buttons = selected_object.get_ui_buttons()
 	for button in buttons:

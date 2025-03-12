@@ -7,6 +7,7 @@ func _init(settlement: Settlement, map_cell: MapCell):
 	cost = {"bmats": 10}
 	max_workers = 3
 	max_residents = 1
+	#production_options = [ProductionOption.new("food", 5)]
 #	workers_required = 5
 
 func can_be_built() -> bool:
