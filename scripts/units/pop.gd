@@ -9,6 +9,7 @@ var residence
 var name: String
 var owner_id: int
 
+var race
 var culture
 var religion
 
@@ -22,6 +23,8 @@ var basic_needs_progress_max = 10
 func _init():
 	basic_needs_progress = 5
 	self.owner_id = 1
+	self.race = "Human"
+	self.culture = "European"
 	SignalBus.pop_created.emit(self)
 
 # in future calculate it using race + culture + religion + events etc
@@ -46,3 +49,6 @@ func get_needs() -> Dictionary:
 			Consts.FOOD : 1,
 		},
 	}
+
+func get_assignment_group() -> String:
+	return self.race + " " + self.culture 

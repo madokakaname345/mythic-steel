@@ -13,3 +13,10 @@ script = ExtResource("1_djxhc")
 [node name="ProductionInfo" type="Label" parent="."]
 layout_mode = 2
 text = "1 X -> 2 Y"
+
+[node name="AssignmentButton" type="OptionButton" parent="."]
+layout_mode = 2
+
+[connection signal="item_focused" from="AssignmentButton" to="." method="_on_assignment_button_item_focused"]
+[connection signal="item_selected" from="AssignmentButton" to="." method="_on_assignment_button_item_selected"]
+[connection signal="pressed" from="AssignmentButton" to="." method="_on_assignment_button_pressed"]

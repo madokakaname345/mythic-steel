@@ -81,6 +81,20 @@ func get_all_pops():
 		pops += building.residents
 	return pops
 
+func get_available_pops_to_assign():
+	var result = {}
+	var pops = []
+	for building in buildings:
+		pops += building.residents
+	for pop in pops:
+		if result.has(pop.get_assignment_group()):
+			result[pop.get_assignment_group()].append(pop)
+		else:
+			result[pop.get_assignment_group()] = [pop]
+			
+	return result
+
+
 func get_tiles():
 	return cells
 
