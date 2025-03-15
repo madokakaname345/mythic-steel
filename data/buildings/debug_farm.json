@@ -1,20 +1,21 @@
 {
 	"name": "Debug Farm",
 	"type": "A debug farm for testing purposes.",
+	"max_residents": 1,
 
 	"cost": {
 		"bmats": 10
 	},
 	"production_options": [
 		{
-			"name": "Wheat",
+			"name": "Grow Wheat",
 			"description": "A simple crop that grows quickly.",
-			"input": {
-				"AGRICULTURE": 1
-			},
-			"output": {
+			"production_type": "BASE_PRODUCTION",
+			"input_resource_type": "AGRICULTURE",
+			"production_per_unit": {
 				"FOOD": 10
-			}
+			},
+			"max_production_input_amount": 5
 		}
 	]
 }

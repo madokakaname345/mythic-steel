@@ -206,17 +206,20 @@ func debug_create_pop():
 	if res_loc == null:
 		print("no free res slots, debug pop creation failed")
 		return
-	
-	var work_loc = get_free_work_building()
-	if work_loc == null:
-		print("no free work slots, debug pop creation failed")
-		return
+
+
 
 	var new_pop = Pop.new()
 	res_loc.residents.append(new_pop)
 	new_pop.residence = res_loc
-	work_loc.workers.append(new_pop)
-	new_pop.assignment = work_loc
+
+	var work_loc = get_free_work_building()
+	if work_loc == null:
+		print("no free work slots, debug pop created without work")
+		return
+	else:
+		work_loc.workers.append(new_pop)
+		new_pop.assignment = work_loc
 
 func has_resources(cost: Dictionary) -> bool:
 	for resource in cost.keys():

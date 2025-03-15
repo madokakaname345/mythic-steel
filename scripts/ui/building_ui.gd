@@ -33,5 +33,6 @@ func fill_building_info(selected_object: Building):
 	for production_option in production_options:
 		var production_option_row = production_row_scene.instantiate()
 		production_info.add_child(production_option_row)
-		production_option_row.set_production_info(production_option.get_name())
-		production_option_row.prepare_assignment_options(selected_object)
+		production_option_row.set_production_info(str("%s %s" % [production_option.get_name(), production_option.get_ui_data()]))
+		production_option_row.prepare_assignment_options(selected_object, production_option)
+		

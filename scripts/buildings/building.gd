@@ -6,7 +6,8 @@ var type: String
 var cost: Dictionary
 var build_progress: int
 
-var production_options: Array[ProductionOption]
+var production_options: Dictionary
+
 
 # pops are assigned to these slots
 
@@ -30,7 +31,23 @@ func can_be_built() -> bool:
 	return true  # Default: Always valid
 
 func on_turn_end():
-	pass  # Default: No effect
+	# iterate over production options
+	var resources_to_add = {}
+	for production_option in production_options:
+		if production_option is BaseProductionOption:
+			var pop = production_option.assigned_pop
+			if pop == null:
+				continue
+			var productivity = clamp(pop.get_productivity()[Consts.LOWER_CLASS][production_option.input_resource_type], 0, production_option.max_production_input_amount)
+			for resource in production_option.production_per_unit:
+				if !resources_to_add.has(resource):
+					resources_to_add[resource] = 0
+				resources_to_add[resource] += productivity * production_option.production_per_unit[resource]
+		
+	for result_res in resources_to_add:
+		if !settlement.resources.has(result_res):
+			settlement.resources[result_res] = 0
+		settlement.resources[result_res] += resources_to_add[result_res]
 
 func get_workers() -> Array:
 	return workers
@@ -56,7 +73,7 @@ func get_ui_data() -> String:
 func get_type() -> String:
 	return type
 
-func get_production_options() -> Array[ProductionOption]:
+func get_production_options() -> Dictionary:
 	return production_options
 
 func load(file_name: String):
@@ -65,11 +82,16 @@ func load(file_name: String):
 	self.name = content_dict["name"]
 	self.type = content_dict["type"]
 	self.cost = content_dict["cost"]
+	self.max_residents = content_dict["max_residents"]
 
 	for production_option in content_dict["production_options"]:
-		var new_production_option = ProductionOption.new()
+		var new_production_option
+		match production_option["production_type"]:
+			Consts.BASE_PRODUCTION:
+				new_production_option = BaseProductionOption.new()
+				new_production_option.production_per_unit = production_option["production_per_unit"]
+				new_production_option.max_production_input_amount = production_option["max_production_input_amount"]
+				new_production_option.input_resource_type = ResourceTypes.PRODUCTION_TYPE.get(production_option["input_resource_type"])
 		new_production_option.name = production_option["name"]
 		new_production_option.description = production_option["description"]
-		new_production_option.input = production_option["input"]
-		new_production_option.output = production_option["output"]
-		self.production_options.append(new_production_option)
+		self.production_options[new_production_option] = null
