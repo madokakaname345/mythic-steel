@@ -87,6 +87,8 @@ func get_available_pops_to_assign():
 	for building in buildings:
 		pops += building.residents
 	for pop in pops:
+		if pop.assignment != null:
+			continue
 		if result.has(pop.get_assignment_group()):
 			result[pop.get_assignment_group()].append(pop)
 		else:
