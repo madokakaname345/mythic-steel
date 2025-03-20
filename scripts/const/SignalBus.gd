@@ -12,6 +12,7 @@ signal end_turn
 
 #selector signals
 signal select_building(building)
+signal select_pop(pop)
 
 
 #debug signals

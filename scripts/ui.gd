@@ -5,9 +5,8 @@ extends CanvasLayer
 @onready var debug_panel: Panel = $DebugPanel
 
 var tile_ui = preload("res://scenes/ui/tile_ui.tscn")
-var settlement_ui = preload("res://scenes/ui/settlement_ui.tscn")
-var unit_ui = preload("res://scenes/ui/unit_ui.tscn")
 var building_ui = preload("res://scenes/ui/building_ui.tscn")
+var player_ui = preload("res://scenes/ui/player_ui.tscn")
 	
 var main: Main
 
@@ -25,26 +24,18 @@ func render_panel(selector):
 		child.queue_free()  # Queue the child for deletion
 
 	match selector.selector_type:
-		SelectorTypes.SELECTOR_TYPE.TILE, SelectorTypes.SELECTOR_TYPE.SETTLEMENT_TILE:
+		SelectorTypes.SELECTOR_TYPE.TILE:
 			var tile_ui_instance = tile_ui.instantiate()
 			side_panel.add_child(tile_ui_instance)
 			tile_ui_instance.render(selector)
-		SelectorTypes.SELECTOR_TYPE.SETTLEMENT:
-			var settlement_ui_instance = settlement_ui.instantiate()
-			side_panel.add_child(settlement_ui_instance)
-			settlement_ui_instance.render(selector)
-		SelectorTypes.SELECTOR_TYPE.UNIT:
-			var unit_ui_instance = unit_ui.instantiate()
-			side_panel.add_child(unit_ui_instance)
-			unit_ui_instance.render(selector)
 		SelectorTypes.SELECTOR_TYPE.BUILDING:
 			var building_ui_instance = building_ui.instantiate()
 			side_panel.add_child(building_ui_instance)
 			building_ui_instance.render(selector)
-
 		SelectorTypes.SELECTOR_TYPE.NONE:
-			data = ""
-			buttons = []
+			var player_ui_instance = player_ui.instantiate()
+			side_panel.add_child(player_ui_instance)
+			player_ui_instance.render(main.player)
 		_:
 			push_error("Selector: unknown selector type") # should never happen
 

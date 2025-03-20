@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://pskhm5jnnuth"]
+
+[ext_resource type="Script" path="res://scripts/ui/pop_row_ui.gd" id="1_f4ia0"]
+
+[node name="Control" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f4ia0")
+
+[node name="NavigateButton" type="Button" parent="."]
+layout_mode = 2
+text = "Name
+"
+
+[node name="VSeparator3" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="BasicInfo" type="Label" parent="."]
+layout_mode = 2
+text = "Basic Info
+"
+
+[node name="VSeparator4" type="VSeparator" parent="."]
+layout_mode = 2
+
+[connection signal="pressed" from="NavigateButton" to="." method="_on_navigate_button_pressed"]

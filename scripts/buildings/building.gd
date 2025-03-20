@@ -32,6 +32,7 @@ func can_be_built() -> bool:
 
 func on_turn_end():
 	# iterate over production options
+	var player = get_player()
 	var resources_to_add = {}
 	for production_option in production_options:
 		if production_option is BaseProductionOption:
@@ -45,9 +46,9 @@ func on_turn_end():
 				resources_to_add[resource] += productivity * production_option.production_per_unit[resource]
 		
 	for result_res in resources_to_add:
-		if !settlement.resources.has(result_res):
-			settlement.resources[result_res] = 0
-		settlement.resources[result_res] += resources_to_add[result_res]
+		if !player.resources.has(result_res):
+			player.resources[result_res] = 0
+		player.resources[result_res] += resources_to_add[result_res]
 
 func get_workers() -> Array:
 	return workers
@@ -75,6 +76,12 @@ func get_type() -> String:
 
 func get_production_options() -> Dictionary:
 	return production_options
+
+func get_main() -> Main:
+	return map_cell.get_main()
+
+func get_player() -> Player:
+	return map_cell.get_main().get_player()
 
 func load(file_name: String):
 	var content = FileAccess.open(file_name, FileAccess.READ).get_as_text()

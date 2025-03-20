@@ -7,9 +7,7 @@ var biome
 var resources = {}
 var units: Array[Unit] = []
 var coords
-var settlement: Settlement
-var buidlings: Array[Building] = []
-var max_buidlings = 3
+var building: Building
 var main: Main
 var visibility = false
 
@@ -70,12 +68,12 @@ func get_terrain_graphics(global_visibility: bool):
 	else:
 		return undiscovered_tile_coords
 
-func get_settlement_graphics():
-	# calc settlement graphics some way
+func get_building_graphics():
+	# calc building graphics some way
 	return Vector2i(0, 1)
 
-func get_settlement():
-	return settlement
+func get_building() -> Building:
+	return building
 
 func incr_elevation_ui():
 	self.elevation += 1
@@ -85,8 +83,13 @@ func decr_elevation_ui():
 	self.elevation -= 1
 	SignalBus.update_ui.emit()
 	
-func create_settlement():
-	self.settlement = Settlement.new(str("test settlemend %d %d" % [coords.x, coords.y]), self, main)
+func create_building(building_type: String):
+	#self.building = Settlement.new(str("test settlemend %d %d" % [coords.x, coords.y]), self, main)
+	var new_building
+	new_building = Building.new(null, self)
+	new_building.load(building_type)
+	self.building = new_building
+	get_player().buildings.append(new_building)
 	SignalBus.update_tile.emit(coords)
 
 func get_ui_data():
@@ -98,46 +101,48 @@ func get_ui_data():
 func get_resources():
 	return resources	
 
-func get_buildings():
-	return buidlings
-
-func get_max_buildings():
-	return max_buidlings
-
 func get_ui_buttons():
 	var buttons = []
 	var button1 = Button.new()
-	button1.text = str("add +1 elevation, curr elevation=", self.elevation)  # Set the button's text
+	button1.text = str("add +1 elevation, curr elevation=", self.elevation)
 	button1.pressed.connect(Callable(self, "incr_elevation_ui"))
 	buttons.append(button1)
 	
 	var button2 = Button.new()
-	button2.text = str("add -1 elevation, curr elevation=", self.elevation)  # Set the button's text
+	button2.text = str("add -1 elevation, curr elevation=", self.elevation)
 	button2.pressed.connect(Callable(self, "decr_elevation_ui"))
 	buttons.append(button2)
 
-	if settlement == null:
+	if building == null:
 		var button3 = Button.new()
-		button3.text = str("Create settlement", self.elevation)  # Set the button's text
-		button3.pressed.connect(Callable(self, "create_settlement"))
+		button3.text = str("Create building from file", self.elevation)
+		button3.pressed.connect(Callable(self, "create_building").bind("data/buildings/debug_farm.json"))
 		buttons.append(button3)
 
-	if settlement != null:
-		buttons += settlement.get_ui_buttons()
+	var button4 = Button.new()
+	button4.text = str("Create pop (debug)", self.elevation)
+	button4.pressed.connect(Callable(self, "debug_create_pop"))
+	buttons.append(button4)
 
-	if units.size() > 0:
-		var button6 = Button.new()
-		button6.text = str("Move unit")  # Set the button's text
-		button6.pressed.connect(Callable(self.units[0], "move_to"))
-		buttons.append(button6)
-		
-		
+	if building != null:
+		buttons += building.get_ui_buttons()
 	
 	return buttons
+
+func debug_create_pop():
+	var new_pop = Pop.new()
+
+	var res_loc = get_player().get_free_res_building()
+	if res_loc == null:
+		print("no free res slots, homeless pop")
+	else:
+		res_loc.residents.append(new_pop)
+		new_pop.residence = res_loc
+	get_player().pops.append(new_pop)
 	
 func dir_action(coords: Vector2i):
-	if self.settlement != null && self.settlement.cells.has(main.tile_map_layers.world_map.get_cell(coords)):
-		self.settlement.settlement_selected_tile = main.tile_map_layers.world_map.get_cell(coords)
+	if self.building != null && self.building.cells.has(main.tile_map_layers.world_map.get_cell(coords)):
+		self.building.settlement_selected_tile = main.tile_map_layers.world_map.get_cell(coords)
 
 func find_path(target: Vector2i) -> Array:
 	return main.tile_map_layers.world_map.find_path(coords, target)
@@ -145,26 +150,8 @@ func find_path(target: Vector2i) -> Array:
 func get_biome():
 	return biome
 
-func get_workers_amount():
-	var workers = 0
-	for building in buidlings:
-		workers += building.get_workers().size()
-	return workers
+func get_main() -> Main:
+	return main
 
-func get_max_workers_amount():
-	var workers = 0
-	for building in buidlings:
-		workers += building.get_max_workers()
-	return workers 
-
-func get_max_residents_amount():
-	var residents = 0
-	for building in buidlings:
-		residents += building.get_max_residents()
-	return residents
-
-func get_residents_amount():
-	var residents = 0
-	for building in buidlings:
-		residents += building.get_residents().size()
-	return residents
+func get_player() -> Player:
+	return main.get_player()

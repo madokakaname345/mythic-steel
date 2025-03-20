@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsvl51gcmh51h"]
+[gd_scene load_steps=2 format=3 uid="uid://dsvl51gcmh51h"]
 
 [ext_resource type="Script" path="res://scripts/ui.gd" id="1_ro7jp"]
-[ext_resource type="PackedScene" uid="uid://cdtnx4c7iu4sw" path="res://scenes/ui/settlement_ui.tscn" id="2_tpdro"]
 
 [node name="UI" type="CanvasLayer"]
 layer = 99
@@ -16,14 +15,6 @@ offset_top = -1.0
 offset_right = -2.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Control" parent="SidePanel" instance=ExtResource("2_tpdro")]
-layout_mode = 0
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-grow_horizontal = 1
-grow_vertical = 1
 
 [node name="EndTurnButton" type="Button" parent="."]
 anchors_preset = -1

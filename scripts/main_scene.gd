@@ -14,11 +14,12 @@ var curr_turn = 1
 var settlements = []
 var units = []
 
+var player: Player
+
 func _ready():
 	# connect signals
 	SignalBus.update_ui.connect(upd_ui)
 	SignalBus.update_tile.connect(upd_tile)
-	SignalBus.settlement_created.connect(add_settlement)
 	SignalBus.unit_created.connect(add_unit)
 	SignalBus.end_turn.connect(end_turn)
 	SignalBus.toggle_visibility.connect(toggle_visibility)
@@ -28,6 +29,7 @@ func _ready():
 
 	# add main to some classes
 	ui.main = self
+	player = Player.new()
 	
 func select_building(building):
 	selector.selector_type = SelectorTypes.SELECTOR_TYPE.BUILDING
@@ -52,12 +54,6 @@ func get_terrain_layer():
 
 func _process(delta):
 	pass
-			
-func add_settlement(settlement):
-	settlements.append(settlement)
-	selector.selector_type = SelectorTypes.SELECTOR_TYPE.SETTLEMENT
-	selector.selected_object = settlement
-	ui.render(selector)
 
 func add_unit(unit):
 	units.append(unit)
@@ -67,12 +63,13 @@ func add_unit(unit):
 
 func end_turn():
 	#make a transation
-	for i in settlements.size():
-		var s = settlements[i]
-		s.end_turn()
-	for i in units.size():
-		var u = units[i]
-		u.end_turn()
+	#for i in settlements.size():
+		#var s = settlements[i]
+		#s.end_turn()
+	#for i in units.size():
+		#var u = units[i]
+		#u.end_turn()
+	player.end_turn()
 	ui.end_turn_button.text = str("End Turn %s" % curr_turn)
 	upd_ui()
 
@@ -89,3 +86,6 @@ func get_tile_map_layers() -> TileMapLayers:
 func process_select(coords):
 	selector.select_object(coords)
 	ui.render(selector)	
+
+func get_player() -> Player:
+	return player

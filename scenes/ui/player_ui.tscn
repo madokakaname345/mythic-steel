@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwlv7r7lhdcc3"]
+
+[ext_resource type="Script" path="res://scripts/ui/player_ui.gd" id="1_q7rgb"]
+[ext_resource type="PackedScene" uid="uid://pskhm5jnnuth" path="res://scenes/ui/pop_row_ui.tscn" id="2_t2klh"]
+
+[node name="Control" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q7rgb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.003
+offset_right = -4.0
+offset_bottom = -2.94403
+
+[node name="PopsLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Pops:"
+
+[node name="PopsContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PopsContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+
+[node name="Control" parent="VBoxContainer/PopsContainer/VBoxContainer" instance=ExtResource("2_t2klh")]
+layout_mode = 2
+
+[node name="ResourcesLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Resources:"
+
+[node name="ResourcesInfo" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true

@@ -243,45 +243,6 @@ func upd_visibility():
 			main.tile_map_layers.world_map.get_cell(cells[0].coords + Vector2i(i,j)).visibility = true
 			SignalBus.update_tile.emit(cells[0].coords)
 
-func get_ui_buttons():
-	var buttons = []
-	var selected_cell
-	if main.selector.selector_type == SelectorTypes.SELECTOR_TYPE.SETTLEMENT_TILE:
-		selected_cell = main.selector.selected_object
-	# get settlement buttons
-	var button4 = Button.new()
-	button4.text = str("Build Iron Mine")  # Set the button's text
-	button4.pressed.connect(Callable(self, "construct_building").bind("Mine", selected_cell))
-	buttons.append(button4)
-
-	var button5 = Button.new()
-	button5.text = str("Build Debug Farm")  # Set the button's text
-	button5.pressed.connect(Callable(self, "construct_building").bind("DebugFarm", selected_cell))
-	buttons.append(button5)
-
-	var button6 = Button.new()
-	button6.text = str("Build Debug ResidentialDistrict")  # Set the button's text
-	button6.pressed.connect(Callable(self, "construct_building").bind("DebugResidentialDistrict", selected_cell))
-	buttons.append(button6)
-
-	var button7 = Button.new()
-	button7.text = str("Hire Scout")  # Set the button's text
-	button7.pressed.connect(Callable(self, "hire_unit").bind("Scout", selected_cell))
-	buttons.append(button7)
-
-	var button8 = Button.new()
-	button8.text = str("Debug create pop in first free building")  # Set the button's text
-	button8.pressed.connect(Callable(self, "debug_create_pop"))
-	buttons.append(button8)
-
-	var button9 = Button.new()
-	button9.text = str("create settlement from file")  # Set the button's text
-	button9.pressed.connect(Callable(self, "construct_building").bind("data/buildings/debug_farm.json", selected_cell))
-	buttons.append(button9)
-
-
-	return buttons
-
 func get_ui_data():
 	var data = str("[b]Settlement Information[/b]\n[b]Name:[/b] %s" % name)
 	return data

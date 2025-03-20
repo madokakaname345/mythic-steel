@@ -3,7 +3,7 @@ class_name BaseProductionOption extends GenericProductionOption
 var input_resource_type = ResourceTypes.PRODUCTION_TYPE
 var production_per_unit = {}
 var max_production_input_amount = 0
-
+var assignee: Pop = null
 
 func get_ui_data() -> String:
 	var result = ""

@@ -2,12 +2,16 @@ class_name Pop
 extends RefCounted  # Pure data, no scene
 
 #either city or unit
-var assignment
+var assignment: GenericProductionOption
 var job
 var residence
 
 var name: String
 var owner_id: int
+
+var available_names = ["John", "Joe", "Gandon"]
+
+var available_surnames = ["Johnson", "Gandonov", "Ivanov"]
 
 var race
 var culture
@@ -26,6 +30,7 @@ func _init():
 	self.race = "Human"
 	self.culture = "European"
 	SignalBus.pop_created.emit(self)
+	self.name = str("%s %s" % [available_names.pick_random(), available_surnames.pick_random()])
 
 # in future calculate it using race + culture + religion + events etc
 func get_productivity() -> Dictionary:
@@ -52,3 +57,9 @@ func get_needs() -> Dictionary:
 
 func get_assignment_group() -> String:
 	return self.race + " " + self.culture 
+
+func get_basic_info() -> String:
+	var assignment_ui = "no assignment"
+	if assignment != null:
+		assignment_ui = assignment.get_name() 
+	return str("name: %s, assignment: %s" % [name, assignment_ui])

@@ -1,7 +1,6 @@
 class_name BuildingUI extends Panel
 
 @onready var building_info = $VBoxContainer/BuildingInfo
-@onready var settlement_info = $VBoxContainer/SettlementInfo
 @onready var building_type = $VBoxContainer/BuildingType
 @onready var production_info = $VBoxContainer/ProductionContainer/VBoxContainer
 
@@ -11,7 +10,6 @@ func _ready():
 	pass
 
 func render(selector: Selector):
-	settlement_info.clear()
 	for child in production_info.get_children():
 		production_info.remove_child(child)
 		child.queue_free()  # Queue the child for deletion		
@@ -25,7 +23,6 @@ func render(selector: Selector):
 	pass
 
 func fill_building_info(selected_object: Building):
-	settlement_info.append_text(selected_object.get_settlement().get_ui_data())
 	building_info.append_text(selected_object.get_ui_data())
 	building_type.append_text(selected_object.get_type())
 
