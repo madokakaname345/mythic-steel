@@ -101,4 +101,5 @@ func load(file_name: String):
 				new_production_option.input_resource_type = ResourceTypes.PRODUCTION_TYPE.get(production_option["input_resource_type"])
 		new_production_option.name = production_option["name"]
 		new_production_option.description = production_option["description"]
+		new_production_option.energy_cost = production_option["energy_cost"]
 		self.production_options[new_production_option] = null

@@ -22,11 +22,11 @@ func prepare_assignment_options(building: Building, production_option):
 	assignment_options.clear()
 	focuses = {0: null}
 	assignment_options.add_item("NONE", 0)
-	var available_pops = building.get_player().pops
+	var available_pops = building.get_player().get_available_pops_for_production_option(production_option)
 	var i = 0
 	for pop in available_pops:
 		i += 1
-		assignment_options.add_item(str("%s" % pop.name), i)
+		assignment_options.add_item(str("%s. Remaining energy: %d" % [pop.name, pop.get_remaining_energy()]), i)
 		focuses[i] = pop
 
 

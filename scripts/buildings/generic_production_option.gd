@@ -2,6 +2,7 @@ class_name GenericProductionOption
 
 var name: String
 var description: String
+var energy_cost: int
 
 var assigned_pop: Pop
 var building: Building
@@ -16,11 +17,17 @@ func get_ui_data() -> String:
 	return str("not implemented")
 
 func assign_pop(pop: Pop):
-	# unassign previous pop
+	if pop == null:
+		unassign_pop()
+
+	# check if pop can be assigned
+	if pop.can_be_assigned_to(self):
+		# unassign previous pop
+		unassign_pop()
+		self.assigned_pop = pop
+		pop.assignments.append(self)
+
+func unassign_pop():
 	if assigned_pop != null:
-		assigned_pop.assignment = null
-		
-	self.assigned_pop = pop
-	
-	if pop != null:
-		pop.assignment = self
+		assigned_pop.assignments.erase(self)
+		assigned_pop = null

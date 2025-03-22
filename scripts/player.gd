@@ -16,3 +16,10 @@ func get_free_res_building():
 func end_turn():
 	for building in buildings:
 		building.on_turn_end()
+
+func get_available_pops_for_production_option(prod_option: GenericProductionOption) -> Array:
+	var available_pops = []
+	for pop in pops:
+		if pop.can_be_assigned_to(prod_option):
+			available_pops.append(pop)
+	return available_pops

@@ -10,6 +10,7 @@
 		{
 			"name": "Grow Wheat",
 			"description": "A simple crop that grows quickly.",
+			"energy_cost": 1,
 			"production_type": "BASE_PRODUCTION",
 			"input_resource_type": "AGRICULTURE",
 			"production_per_unit": {

@@ -2,7 +2,7 @@ class_name Pop
 extends RefCounted  # Pure data, no scene
 
 #either city or unit
-var assignment: GenericProductionOption
+var assignments: Array[GenericProductionOption]
 var job
 var residence
 
@@ -16,6 +16,8 @@ var available_surnames = ["Johnson", "Gandonov", "Ivanov"]
 var race
 var culture
 var religion
+
+var max_energy = 5
 
 var basic_needs = {
 	"food": 1,
@@ -60,6 +62,29 @@ func get_assignment_group() -> String:
 
 func get_basic_info() -> String:
 	var assignment_ui = "no assignment"
-	if assignment != null:
-		assignment_ui = assignment.get_name() 
-	return str("name: %s, assignment: %s" % [name, assignment_ui])
+	if assignments != null and assignments.size() > 0:
+		assignment_ui = assignments[0].get_name() 
+		return str("name: %s, assignments: %s..." % [name, assignment_ui])
+	elif assignments.size() == 1:
+		assignment_ui = assignments[0].get_name() 
+		return str("name: %s, assignments: %s..." % [name, assignment_ui])
+	return assignment_ui
+
+
+func can_be_assigned_to(production_option: GenericProductionOption) -> bool:
+	# check not assigned to this prod option already
+	if assignments.has(production_option):
+		return false
+
+	if production_option.energy_cost > get_remaining_energy():
+		return false
+
+	return true
+
+func get_remaining_energy() -> int:
+	var curr_energy_consumption = 0
+
+	for assignment in assignments:
+		curr_energy_consumption += assignment.energy_cost
+
+	return max_energy - curr_energy_consumption
