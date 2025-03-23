@@ -6,6 +6,7 @@ var blue_highlited_color = Vector2i(38,78)
 
 var selected_object = null
 var selector_type = SelectorTypes.SELECTOR_TYPE.NONE  # "Settlement", "Unit", etc.
+var additional_selector_type = SelectorTypes.ADDITIONAL_SELECTOR_TYPE.NONE
 
 var main: Main
 
@@ -13,6 +14,7 @@ func _init(main: Main):
 	self.main = main
 
 func select_object(coords: Vector2i):
+	additional_selector_type = SelectorTypes.ADDITIONAL_SELECTOR_TYPE.NONE
 	if selector_type != SelectorTypes.SELECTOR_TYPE.NONE:
 		selector_type = SelectorTypes.SELECTOR_TYPE.NONE
 		selected_object = main.get_player()
@@ -37,3 +39,8 @@ func get_highlighted_tiles():
 			result[selected_object.map_cell.coords] = brown_highlited_color
 	
 	return result
+
+func set_additional_selector_type(type: SelectorTypes.ADDITIONAL_SELECTOR_TYPE):
+	# validate correctness of transition
+	self.additional_selector_type = type
+	main.upd_ui()

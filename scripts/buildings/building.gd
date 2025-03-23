@@ -1,7 +1,10 @@
 class_name Building
 
 var name: String
+var descripion: String
 var type: String
+
+var file_path: String
 
 var cost: Dictionary
 var build_progress: int
@@ -18,12 +21,9 @@ var max_residents: int
 #worker slots
 var workers: Array
 var max_workers: int
-
-var settlement: Settlement
 var map_cell: MapCell
 
-func _init(settlement: Settlement, map_cell: MapCell):
-	self.settlement = settlement
+func _init(map_cell: MapCell):
 	self.map_cell = map_cell
 	
 # Override in child classes
@@ -65,9 +65,6 @@ func get_max_residents() -> int:
 func get_name():
 	return name
 
-func get_settlement() -> Settlement:
-	return settlement
-
 func get_ui_data() -> String:
 	return str("Name: %s" % name)
 
@@ -86,7 +83,9 @@ func get_player() -> Player:
 func load(file_name: String):
 	var content = FileAccess.open(file_name, FileAccess.READ).get_as_text()
 	var content_dict = JSON.parse_string(content)
+	self.file_path = file_name
 	self.name = content_dict["name"]
+	self.descripion = content_dict["description"]
 	self.type = content_dict["type"]
 	self.cost = content_dict["cost"]
 	self.max_residents = content_dict["max_residents"]
@@ -103,3 +102,6 @@ func load(file_name: String):
 		new_production_option.description = production_option["description"]
 		new_production_option.energy_cost = production_option["energy_cost"]
 		self.production_options[new_production_option] = null
+
+func get_ui_buttons():
+	return []

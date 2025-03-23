@@ -3,19 +3,24 @@ extends CanvasLayer
 @onready var side_panel: Panel = $SidePanel
 @onready var end_turn_button = $EndTurnButton
 @onready var debug_panel: Panel = $DebugPanel
+@onready var additional_panel: Panel = $AdditionalPanel
 
 var tile_ui = preload("res://scenes/ui/tile_ui.tscn")
 var building_ui = preload("res://scenes/ui/building_ui.tscn")
 var player_ui = preload("res://scenes/ui/player_ui.tscn")
+
+var building_selection_panel_scene = preload("res://scenes/ui/buildings_selection_panel.tscn")
 	
 var main: Main
 
 func render(selector):
-	render_panel(selector)
+	render_main_panel(selector)
+	render_additional_panel(selector)
+
 	main.get_tile_map_layers().update_highlighted_tiles(selector)
 	main.get_tile_map_layers().update_map()
 
-func render_panel(selector):
+func render_main_panel(selector):
 	var data
 	var buttons
 
@@ -38,6 +43,25 @@ func render_panel(selector):
 			player_ui_instance.render(main.player)
 		_:
 			push_error("Selector: unknown selector type") # should never happen
+
+func render_additional_panel(selector):
+	for child in additional_panel.get_children():
+		additional_panel.remove_child(child)
+		child.queue_free()  # Queue the child for deletion
+		additional_panel.set_visible(false)
+	
+	match selector.additional_selector_type:
+		SelectorTypes.ADDITIONAL_SELECTOR_TYPE.NONE:
+			pass
+		SelectorTypes.ADDITIONAL_SELECTOR_TYPE.AVAILABLE_BUILDINGS_TO_BUILD:
+			additional_panel.set_visible(true)
+			if selector.selector_type != SelectorTypes.SELECTOR_TYPE.TILE:
+				pass
+			var building_selection_panel = building_selection_panel_scene.instantiate()
+			additional_panel.add_child(building_selection_panel)
+			building_selection_panel.render(main.get_player())
+		_:
+			pass
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:

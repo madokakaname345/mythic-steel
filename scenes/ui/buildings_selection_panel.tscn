@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://cckcuu6o7enqf"]
+
+[ext_resource type="Script" path="res://scripts/ui/buildings_selection_panel.gd" id="1_hmlxl"]
+[ext_resource type="PackedScene" uid="uid://c12re3bqvpvfn" path="res://scenes/ui/structure_row_ui.tscn" id="3_tbvit"]
+
+[node name="Control" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hmlxl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.003
+offset_right = -4.0
+offset_bottom = -2.94403
+
+[node name="CanBeBuildInfo" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Available buildings to build:"
+fit_content = true
+
+[node name="StructureContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/StructureContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+
+[node name="StructureRowExample" parent="VBoxContainer/StructureContainer/VBoxContainer" instance=ExtResource("3_tbvit")]
+layout_mode = 2

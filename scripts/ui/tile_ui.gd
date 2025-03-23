@@ -8,10 +8,13 @@ class_name TileUI extends Panel
 var resource_row_scene = preload("res://scenes/ui/resource_row_ui.tscn")
 var structure_row_scene = preload("res://scenes/ui/structure_row_ui.tscn")
 
+var selector: Selector
+
 func _ready():
 	pass
 
 func render(selector: Selector):
+	self.selector = selector
 	tile_info.clear()
 	for child in buttons_container.get_children():
 		buttons_container.remove_child(child)
@@ -50,4 +53,19 @@ func fill_tile_info(selected_object: MapCell):
 	var buttons = selected_object.get_ui_buttons()
 	for button in buttons:
 		buttons_container.add_child(button)
+
+	for button in get_ui_buttons():
+		buttons_container.add_child(button)
 	
+
+func get_ui_buttons():
+	var buttons = []
+
+	var button1 = Button.new()
+	button1.text = str("Build Menu")
+	button1.pressed.connect(Callable(self, "select_builder_panel"))
+	buttons.append(button1)
+	return buttons
+
+func select_builder_panel():
+	selector.set_additional_selector_type(SelectorTypes.ADDITIONAL_SELECTOR_TYPE.AVAILABLE_BUILDINGS_TO_BUILD)

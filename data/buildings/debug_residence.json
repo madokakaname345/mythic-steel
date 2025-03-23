@@ -1,0 +1,11 @@
+{
+	"name": "Debug Residence",
+	"description": "A debug residence for testing purposes.",
+	"type": "debug_residence",
+	"max_residents": 5,
+
+	"cost": {
+		"bmats": 20
+	},
+	"production_options": []
+}

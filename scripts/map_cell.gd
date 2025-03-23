@@ -83,14 +83,26 @@ func decr_elevation_ui():
 	self.elevation -= 1
 	SignalBus.update_ui.emit()
 	
-func create_building(building_type: String):
+func create_building(building_sample: Building):
 	#self.building = Settlement.new(str("test settlemend %d %d" % [coords.x, coords.y]), self, main)
-	var new_building
-	new_building = Building.new(null, self)
-	new_building.load(building_type)
+	# var new_building
+	var new_building = Building.new(self)
+	new_building.load(building_sample.file_path)
+
+	if not new_building.can_be_built():
+		print(new_building.type, "cannot be built at ", self.coords)
+		return
+
+	if not get_player().has_resources(new_building.cost):
+		print("Not enough resources to build ", new_building.type)
+		return
+
+	get_player().spend_resources(new_building.cost)
 	self.building = new_building
 	get_player().buildings.append(new_building)
-	SignalBus.update_tile.emit(coords)
+	print(new_building.type, "built successfully!")
+	SignalBus.update_tile.emit(self.coords)
+	return new_building
 
 func get_ui_data():
 
@@ -112,12 +124,6 @@ func get_ui_buttons():
 	button2.text = str("add -1 elevation, curr elevation=", self.elevation)
 	button2.pressed.connect(Callable(self, "decr_elevation_ui"))
 	buttons.append(button2)
-
-	if building == null:
-		var button3 = Button.new()
-		button3.text = str("Create building from file", self.elevation)
-		button3.pressed.connect(Callable(self, "create_building").bind("data/buildings/debug_farm.json"))
-		buttons.append(button3)
 
 	var button4 = Button.new()
 	button4.text = str("Create pop (debug)", self.elevation)

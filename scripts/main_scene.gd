@@ -24,17 +24,23 @@ func _ready():
 	SignalBus.end_turn.connect(end_turn)
 	SignalBus.toggle_visibility.connect(toggle_visibility)
 	SignalBus.process_select.connect(process_select)
-	SignalBus.select_building.connect(select_building)
-
+	SignalBus.select_existing_building.connect(select_existing_building)
+	SignalBus.select_building_to_build.connect(select_building_to_build)
 
 	# add main to some classes
 	ui.main = self
 	player = Player.new()
 	
-func select_building(building):
+func select_existing_building(building):
 	selector.selector_type = SelectorTypes.SELECTOR_TYPE.BUILDING
 	selector.selected_object = building
 	ui.render(selector)
+
+func select_building_to_build(building):
+	if selector.selector_type == SelectorTypes.SELECTOR_TYPE.TILE:
+		selector.selected_object.create_building(building)
+		ui.render(selector)
+
 
 func upd_ui():
 	ui.render(selector)

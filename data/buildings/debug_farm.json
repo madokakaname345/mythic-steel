@@ -1,6 +1,7 @@
 {
 	"name": "Debug Farm",
-	"type": "A debug farm for testing purposes.",
+	"description": "A debug farm for testing purposes.",
+	"type": "debug_farm",
 	"max_residents": 1,
 
 	"cost": {

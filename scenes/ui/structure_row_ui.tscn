@@ -17,6 +17,17 @@ text = "Structure Name"
 [node name="VSeparator" type="VSeparator" parent="."]
 layout_mode = 2
 
-[node name="PopsInfo" type="Label" parent="."]
+[node name="PopsInfo" type="RichTextLabel" parent="."]
+clip_contents = false
+custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
 text = "Workers: X, Residents: Y"
+fit_content = true
+
+[node name="PriceInfo" type="RichTextLabel" parent="."]
+clip_contents = false
+custom_minimum_size = Vector2(130.83, 0)
+layout_mode = 2
+text = "Wood 10
+Stone 20"
+fit_content = true

@@ -11,9 +11,10 @@ signal selection_changed(select_object)
 signal end_turn
 
 #selector signals
-signal select_building(building)
+signal select_existing_building(building)
 signal select_pop(pop)
 
+signal select_building_to_build(building: Building)
 
 #debug signals
 signal toggle_debug_panel

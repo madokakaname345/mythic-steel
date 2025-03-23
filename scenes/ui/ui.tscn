@@ -47,6 +47,7 @@ offset_bottom = -8.0
 text = "Show Side Panel"
 
 [node name="DebugPanel" type="Panel" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -69,6 +70,16 @@ offset_bottom = -292.0
 [node name="Toggle Tiles Visibility" type="Button" parent="DebugPanel/ButtonsContainer"]
 layout_mode = 2
 text = "Toggle Tiles Visibility"
+
+[node name="AdditionalPanel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_right = -817.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="pressed" from="EndTurnButton" to="." method="_on_end_turn_button_pressed"]
 [connection signal="pressed" from="DebubPanelButton" to="." method="_on_debub_panel_button_pressed"]
