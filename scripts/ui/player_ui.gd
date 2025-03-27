@@ -19,8 +19,9 @@ func render(new_player: Player):
 	fill_pops()
 	
 func fill_resources():
-	for resource in player.resources:
-		resources_info.append_text(str("%s: %d\n" % [resource, player.resources[resource]]))
+	var resources = player.get_all_resources()
+	for resource in resources:
+		resources_info.append_text(str("%s: %d\n" % [resource, resources[resource]]))
 
 func fill_pops():
 	for pop in player.pops:

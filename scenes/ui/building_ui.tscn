@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://vdpc0fnfkevf"]
+[gd_scene load_steps=4 format=3 uid="uid://vdpc0fnfkevf"]
 
 [ext_resource type="PackedScene" uid="uid://bwulx6xbpe2e7" path="res://scenes/ui/production_row_ui.tscn" id="1_0hlds"]
 [ext_resource type="Script" path="res://scripts/ui/building_ui.gd" id="1_q0d4u"]
+[ext_resource type="PackedScene" uid="uid://cl3w0b83qpd3f" path="res://scenes/ui/resource_row_ui.tscn" id="2_0l8o8"]
 
 [node name="Control" type="Panel"]
 anchors_preset = 15
@@ -60,3 +61,18 @@ layout_mode = 2
 [node name="Button" type="Button" parent="VBoxContainer/ButtonsContainer/VBoxContainer"]
 layout_mode = 2
 text = "Action1"
+
+[node name="ResourcesLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Resources:"
+
+[node name="ResourcesContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ResourcesContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+
+[node name="ResourceRowExample" parent="VBoxContainer/ResourcesContainer/VBoxContainer" instance=ExtResource("2_0l8o8")]
+layout_mode = 2

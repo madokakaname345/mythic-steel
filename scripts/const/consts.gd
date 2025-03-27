@@ -5,3 +5,4 @@ var FOOD = "food"
 var AMENITIES = "amenities"
 
 var BASE_PRODUCTION = "BASE_PRODUCTION"
+var HAUL = "HAUL"

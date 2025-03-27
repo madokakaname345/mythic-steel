@@ -19,6 +19,7 @@ func get_ui_data() -> String:
 func assign_pop(pop: Pop):
 	if pop == null:
 		unassign_pop()
+		return
 
 	# check if pop can be assigned
 	if pop.can_be_assigned_to(self):

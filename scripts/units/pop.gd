@@ -19,6 +19,10 @@ var religion
 
 var max_energy = 5
 
+var haul_reserved_energy = 0
+
+var main: Main
+
 var basic_needs = {
 	"food": 1,
 }
@@ -26,7 +30,8 @@ var basic_needs = {
 var basic_needs_progress
 var basic_needs_progress_max = 10
 
-func _init():
+func _init(main: Main):
+	self.main = main
 	basic_needs_progress = 5
 	self.owner_id = 1
 	self.race = "Human"
@@ -81,6 +86,7 @@ func can_be_assigned_to(production_option: GenericProductionOption) -> bool:
 
 	return true
 
+
 func get_remaining_energy() -> int:
 	var curr_energy_consumption = 0
 
@@ -88,3 +94,6 @@ func get_remaining_energy() -> int:
 		curr_energy_consumption += assignment.energy_cost
 
 	return max_energy - curr_energy_consumption
+
+func calc_required_energy_to_haul(res_type: String, distance: int, amount: int) -> int:
+	return distance * amount * main.get_res_info(res_type)["weight"]

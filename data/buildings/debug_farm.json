@@ -5,7 +5,7 @@
 	"max_residents": 1,
 
 	"cost": {
-		"bmats": 10
+		"BUILDING_MATERIALS": 10
 	},
 	"production_options": [
 		{
@@ -19,5 +19,6 @@
 			},
 			"max_production_input_amount": 5
 		}
-	]
+	],
+	"stock_capacity": 100
 }

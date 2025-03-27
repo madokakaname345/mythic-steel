@@ -16,6 +16,8 @@ var units = []
 
 var player: Player
 
+var resources_info = {}
+
 func _ready():
 	# connect signals
 	SignalBus.update_ui.connect(upd_ui)
@@ -29,7 +31,9 @@ func _ready():
 
 	# add main to some classes
 	ui.main = self
-	player = Player.new()
+	player = Player.new(self)
+
+	load_resources_info()
 	
 func select_existing_building(building):
 	selector.selector_type = SelectorTypes.SELECTOR_TYPE.BUILDING
@@ -95,3 +99,10 @@ func process_select(coords):
 
 func get_player() -> Player:
 	return player
+
+func load_resources_info():
+	var content = FileAccess.open("res://data/resources.json", FileAccess.READ).get_as_text()
+	self.resources_info = JSON.parse_string(content)
+
+func get_res_info(res_name: String):
+	return resources_info[res_name]

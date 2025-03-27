@@ -136,7 +136,7 @@ func get_ui_buttons():
 	return buttons
 
 func debug_create_pop():
-	var new_pop = Pop.new()
+	var new_pop = Pop.new(self.main)
 
 	var res_loc = get_player().get_free_res_building()
 	if res_loc == null:

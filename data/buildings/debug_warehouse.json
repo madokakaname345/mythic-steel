@@ -1,0 +1,16 @@
+{
+	"name": "Debug Warehouse",
+	"description": "A debug warehouse that has resources in it for starting.",
+	"type": "debug_warehouse",
+	"max_residents": 1,
+	"cost": {},
+	"production_options": [
+		{
+			"name": "Collect Resources",
+			"description": "Haul resources from .",
+			"production_type": "HAUL",
+			"hauling_type": "COLLECT_ALL_TO"
+		}
+	],
+	"stock_capacity": 1000
+}

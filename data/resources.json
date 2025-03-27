@@ -1,0 +1,14 @@
+{
+    "FOOD": {
+        "id": 1,
+        "name": "Food",
+        "description": "A basic resource that is required for survival.",
+        "weight": 1
+    },
+    "BUILDING_MATERIALS": {
+        "id": 2,
+        "name": "Building Materials",
+        "description": "Materials used to construct buildings.",
+        "weight": 1
+    }
+}
