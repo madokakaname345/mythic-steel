@@ -1,0 +1,1 @@
+Buildings are a core entity
